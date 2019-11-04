@@ -692,10 +692,10 @@ public class DeviceInfoUtils {
             Log.d(TAG, "Invalid Identify!");
             return 1;
         }
-        String sub = identify.substring(len - 5, len - 2);
+        String sub = identify.substring(len - 5, len - 3);
         Log.d(TAG, "substring:" + sub);
         Log.d(TAG, "stationID:" + Integer.valueOf(sub));
-        return Integer.valueOf(identify.substring(len - 5, len - 2));
+        return Integer.valueOf(sub);
     }
 
     //从识别号中提取设备所属的线路，如，1路，B12等
@@ -715,18 +715,18 @@ public class DeviceInfoUtils {
     }
 
     //从识别号中提取设备所在的未知（站点编号）
-    public static int getDevicePositionFromIdentify(String identify) {
+    public static String getDevicePositionFromIdentify(String identify) {
         try {
             int len = identify.length();
             if (IdentifyLen != len) {
                 throw new Exception("Invalid Identify: " + identify);
             }
             String sub = identify.substring(len - 5, len - 3);
-            return Integer.valueOf(sub);
+            return sub;
         } catch (Exception e) {
             e.printStackTrace();
             //出现异常则默认是位于1站
-            return 1;
+            return "1";
         }
     }
 

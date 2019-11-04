@@ -61,17 +61,17 @@ public  class MsgService extends Service {
 
     //海信服务器地址
 //    public static final String BROKER_URL = "tcp://172.16.10.37:1883";
+    public static final String BROKER_URL = "tcp://aids.zdhs.com.cn:1883";
 //    public static final String BROKER_URL = "tcp://172.16.30.254:1883";
-    public static final String BROKER_URL = "tcp://172.16.30.254:1883";
     //    public static final String clientId = "ceiv-client";
     public String clientId;
     public static final String TopicArrLev = "TopicArrLev";
     public static final String TopicGPS = "TopicGPS";
     public static final String TopicBrt = "com/ceiv/busmsg/zzbrt";
-    //    private String userName = "admin"; // 连接的用户名
-//    private String passWord = "pi@1415"; //连接的密码
-    private String userName = "zzx"; // 连接的用户名
-    private String passWord = "zzx"; //连接的密码
+        private String userName = "admin"; // 连接的用户名
+    private String passWord = "pi@1415"; //连接的密码
+//    private String userName = "zzx"; // 连接的用户名
+//    private String passWord = "zzx"; //连接的密码
 
 //    public static final String BROKER_URL = "tcp://192.168.43.45:1883";
 //    public static final String clientId = "android-client";

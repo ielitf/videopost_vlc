@@ -131,7 +131,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
     RestartTimesOperation mRestartTimesOperation = new RestartTimesOperation();
     JSONObject mJson = null;
     //当前设备所在的位置（所在的站点编号）
-    private int DevicePosition = -1;
+    private String DevicePosition = "-1";
     //当前设备所在位置的线路方向（上行、下行），对于某些在中间的设备不区分上下行
     private int DeviceDirection = -1;
 
@@ -255,7 +255,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                     return;
                 }
                 boolean findDevPos = false;
-                int tmpDevPos = DeviceInfoUtils.getDevicePositionFromIdentify(DeviceInfoUtils.getDeviceInfoFromFile().getIdentify());
+                String tmpDevPos = DeviceInfoUtils.getDevicePositionFromIdentify(DeviceInfoUtils.getDeviceInfoFromFile().getIdentify());
 //                ArrayList<StationItem> upline = BrtInfoUtils.getCurRouteInfo().getUpline().getStationList();
 //                ArrayList<StationItem> downline = BrtInfoUtils.getCurRouteInfo().getDownline().getStationList();
 
@@ -264,10 +264,12 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 
                 for (int i = 0; i < upline.size(); i++) {
                     Log.d(TAG, "up " + upline.get(i).getStationNum());
-                    if (upline.get(i).getStationNum() == tmpDevPos) {
+                    String strUp = upline.get(i).getStationNum()+"";
+                    if (strUp .equals(tmpDevPos)) {
                         for (int j = 0; j < downline.size(); j++) {
                             Log.d(TAG, "down " + downline.get(j).getStationNum());
-                            if (downline.get(j).getStationNum() == tmpDevPos) {
+                            String strDown = downline.get(j).getStationNum()+"";
+                            if (strDown .equals(tmpDevPos)) {
                                 findDevPos = true;
                                 break;
                             }
@@ -673,7 +675,8 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 
     private void checkStationData() {
         Log.i(TAG, "开机：检查更新路线");
-        String url = "http://172.16.30.254:8082/message/searchBasicInfo";
+        String url = "http://aids.zdhs.com.cn:8082/message/searchBasicInfo";
+//        String url = "http://172.16.30.254:8082/message/searchBasicInfo";
         OkGo.<String>get(url).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
@@ -709,23 +712,25 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
      * 就不对应了，这时候，返回 null
      */
     private List<Stations> initStation(SearchBasicInfo searchBasicInfo, String basicInfoStr) {
-        int curDevPos = DeviceInfoUtils.getDevicePositionFromIdentify(DeviceInfoUtils.getDeviceInfoFromFile().getIdentify());
+        String curDevPos = DeviceInfoUtils.getDevicePositionFromIdentify(DeviceInfoUtils.getDeviceInfoFromFile().getIdentify());
+        int curDevPosInt = Integer.parseInt(curDevPos);
+        String curDevPosStr = curDevPosInt +"";
         Log.i(TAG, "searchBasicInfo：开始解析数据");
-        Log.i(TAG, "当前站ID：" + curDevPos);
+        Log.i(TAG, "当前站ID：" + curDevPosStr);
         routeIdFromSp = SpUtils.getString(CodeConstants.ROUTE_ID);
         stationInfoList = searchBasicInfo.getStationInfo();
         for (int i = 0; i < stationInfoList.size(); i++) {
             if (stationInfoList.get(i).getDirection().equals("up")) {
                 stationUpList = stationInfoList.get(i).getStations();//上行站点集合
                 for (int j = 0; j < stationUpList.size(); j++) {
-                    if (curDevPos == Integer.parseInt(stationUpList.get(j).getId())) {
+                    if (curDevPosStr .equals( stationUpList.get(j).getId())) {
                         List<Stations> stationList = stationInfoList.get(i).getStations();
                         position_stationInfo = i;
                         position_station = j;
                         direction = stationInfoList.get(i).getDirection();
                         routeId = stationInfoList.get(i).getRouteId();
                         Log.i(TAG, "position_station:" + position_station);
-                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPos);
+                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPosStr);
                         if (routeIdFromSp.equals(routeId)) {//如果配置文件中(和SP中一致)的线路编号和收到的线路一致，储存更新数据库
                             SpUtils.putString(CodeConstants.SEARCH_BASIC_INFO, basicInfoStr);
                             SpUtils.putString(CodeConstants.ROUTE_ID, routeId);
@@ -741,14 +746,14 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
             } else if (stationInfoList.get(i).getDirection().equals("down")) {
                 stationDownList = stationInfoList.get(i).getStations();//下行站点集合
                 for (int k = 0; k < stationDownList.size(); k++) {
-                    if (curDevPos == Integer.parseInt(stationDownList.get(k).getId())) {
+                    if (curDevPosStr .equals(stationDownList.get(k).getId()) ) {
                         List<Stations> stationList = stationInfoList.get(i).getStations();
                         position_stationInfo = i;
                         position_station = k;
                         direction = stationInfoList.get(i).getDirection();
                         routeId = stationInfoList.get(i).getRouteId();
                         Log.i(TAG, "position_station:" + position_station);
-                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPos);
+                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPosStr);
 
                         if (routeOfDevice.equals(routeId)) {//如果配置文件中(和SP中一致)的线路编号和收到的线路一致，储存更新数据库
                             SpUtils.putString(CodeConstants.SEARCH_BASIC_INFO, basicInfoStr);
@@ -800,6 +805,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 //            direStationEn = stationList.get(0).getNameEn();
             }
         } else {
+            Log.i(TAG, "stationList：" + stationList);
             Log.i(TAG, "线路信息发生变化，或没有找到当前站：");
         }
     }

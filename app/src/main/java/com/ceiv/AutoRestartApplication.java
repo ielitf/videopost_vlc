@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.ceiv.communication.utils.CopyFileFromAssets;
 import com.ceiv.log4j.Log;
+import com.ceiv.videopost.CrashHandler;
 import com.ceiv.videopost.SpUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -29,6 +30,8 @@ public class AutoRestartApplication extends Application implements Thread.Uncaug
     @Override
     public void onCreate() {
         new SpUtils(this);
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         OkGo.getInstance().init(this);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.readTimeout(30000, TimeUnit.MILLISECONDS);      //读取超时时间
