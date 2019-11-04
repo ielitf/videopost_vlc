@@ -1,0 +1,20 @@
+Executable : D:\studioWork\Sdk\cmake\3.10.2.4988404\bin\cmake.exe
+arguments : 
+-HD:\video_vlc\videopost_vlc\app\src\main\cpp
+-BD:\video_vlc\videopost_vlc\app\.cxx\cmake\release\armeabi-v7a
+-DANDROID_ABI=armeabi-v7a
+-DANDROID_PLATFORM=android-22
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\video_vlc\videopost_vlc\app\build\intermediates\cmake\release\obj\armeabi-v7a
+-DCMAKE_BUILD_TYPE=Release
+-DANDROID_NDK=D:\studioWork\Sdk\ndk\20.0.5594570
+-DCMAKE_CXX_FLAGS=
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a
+-DCMAKE_SYSTEM_VERSION=22
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_ANDROID_NDK=D:\studioWork\Sdk\ndk\20.0.5594570
+-DCMAKE_TOOLCHAIN_FILE=D:\studioWork\Sdk\ndk\20.0.5594570\build\cmake\android.toolchain.cmake
+-G Ninja
+-DCMAKE_MAKE_PROGRAM=D:\studioWork\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
+jvmArgs : 
+

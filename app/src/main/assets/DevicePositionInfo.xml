@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 本地存储的所有布置有设备的站点编号和基本名称信息 -->
+<stations>
+    <station>
+        <num>1</num>
+        <name>银海玉洞路口站</name>
+        <ename>YINHAIYUDONG LUKOU</ename>
+    </station>
+    <station>
+        <num>2</num>
+        <name>玉洞红玉路口站</name>
+        <ename>YUDONGHONGYU LUKOU</ename>
+    </station>
+    <station>
+        <num>3</num>
+        <name>玉洞东风路口西站</name>
+        <ename>YUDONGDONGFENG LUKOU West</ename>
+    </station>
+    <station>
+        <num>4</num>
+        <name>玉洞东风路口东站</name>
+        <ename>YUDONGDONGFENG LUKOU Eest</ename>
+    </station>
+    <station>
+        <num>6</num>
+        <name>玉洞玉象路口站</name>
+        <ename>YUDONGYUXIANG LUKOU</ename>
+    </station>
+    <station>
+        <num>7</num>
+        <name>五象湖公园站</name>
+        <ename>WUXIANGHU Park</ename>
+    </station>
+    <station>
+        <num>8</num>
+        <name>五象湖（平乐玉洞立交）站</name>
+        <ename>WUXIANGHU(PINGLEYUDONG Flyover)</ename>
+    </station>
+    <station>
+        <num>9</num>
+        <name>玉洞那黄路口站</name>
+        <ename>YUDONGNAHUANG LUKOU</ename>
+    </station>
+    <station>
+        <num>10</num>
+        <name>玉洞瓦村路口站</name>
+        <ename>YUDONGWACUN LUKOU</ename>
+    </station>
+    <station>
+        <num>11</num>
+        <name>玉洞丰庆路口站</name>
+        <ename>YUDONGFENGQING LUKOU</ename>
+    </station>
+    <station>
+        <num>12</num>
+        <name>玉洞延庆路口站</name>
+        <ename>YUDONGYANQING LUKOU</ename>
+    </station>
+    <station>
+        <num>13</num>
+        <name>玉洞新良路口站</name>
+        <ename>YUDONGXINLIANG LUKOU</ename>
+    </station>
+    <station>
+        <num>14</num>
+        <name>五象火车站</name>
+        <ename>WUXIANG Railway Station</ename>
+    </station>
+    <station>
+        <num>15</num>
+        <name>玉洞永福路口站</name>
+        <ename>YUDONGYONGFU LUKOU</ename>
+    </station>
+    <station>
+        <num>16</num>
+        <name>梁村大桥西站站</name>
+        <ename>LIANGCUNDAQIAO West</ename>
+    </station>
+    <station>
+        <num>17</num>
+        <name>园博园北门站</name>
+        <ename>Garden Expo Park North Gate</ename>
+    </station>
+    <station>
+        <num>18</num>
+        <name>园博园站</name>
+        <ename>Garden Expo Park</ename>
+    </station>
+</stations>
+
+

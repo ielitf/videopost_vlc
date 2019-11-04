@@ -1,0 +1,69 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "D:\\video_vlc\\videopost_vlc",
+      "sdkFolder": "D:\\studioWork\\Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "D:\\video_vlc\\videopost_vlc\\app\\build\\intermediates",
+      "gradleModulePathName": ":app",
+      "moduleRootFolder": "D:\\video_vlc\\videopost_vlc\\app",
+      "makeFile": "D:\\video_vlc\\videopost_vlc\\app\\src\\main\\cpp\\CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "D:\\video_vlc\\videopost_vlc\\.cxx",
+      "cxxFolder": "D:\\video_vlc\\videopost_vlc\\app\\.cxx",
+      "ndkFolder": "D:\\studioWork\\Sdk\\ndk\\20.0.5594570",
+      "ndkVersion": "20.0.5594570",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [],
+    "cFlagList": [],
+    "cppFlagsList": [
+      ""
+    ],
+    "variantName": "debug",
+    "soFolder": "D:\\video_vlc\\videopost_vlc\\app\\build\\intermediates\\cmake\\debug\\lib",
+    "objFolder": "D:\\video_vlc\\videopost_vlc\\app\\build\\intermediates\\cmake\\debug\\obj",
+    "jsonFolder": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug",
+    "gradleBuildOutputFolder": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI_V7A"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "ARMEABI_V7A",
+  "abiPlatformVersion": 22,
+  "cxxBuildFolder": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a",
+  "jsonFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a",
+  "objFolder": "D:\\video_vlc\\videopost_vlc\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a",
+  "buildCommandFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\build_command.txt",
+  "buildOutputFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\build_output.txt",
+  "modelOutputFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a\\CMakeLists.txt",
+    "toolchainWrapperFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a\\android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a\\build_generation_state.json",
+    "cacheKeyFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_cache_key.json",
+    "compilerCacheUseFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_cache_use.json",
+    "compilerCacheWriteFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cxx\\debug\\armeabi-v7a\\compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\json_generation_record.json",
+  "compileCommandsJsonFile": "D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\\compile_commands.json"
+}

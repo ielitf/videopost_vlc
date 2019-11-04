@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left">
+
+        <ImageView
+            android:id="@+id/RDirImg"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="10px"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:src="@drawable/right"
+            />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/RdstStationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:textSize="35px"
+                android:text="开往园博园方向"
+                />
+            <TextView
+                android:id="@+id/RdstStationEName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:textSize="20px"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:text="Bound to Yuan Bo Yuan Station"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/devision_line"
+        />
+    <TextView
+        android:layout_height="50px"
+        android:layout_width="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="40px"
+        android:layout_marginTop="10px"
+        android:text="下一站"
+        android:layout_marginLeft="20px"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="20px"
+        android:textSize="20px"
+        android:text="Next station"
+        />
+    <TextView
+        android:id="@+id/RnextStaName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="10px"
+        android:textColor="#ffffff"
+        android:textSize="50px"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="站点名称"
+        />
+
+    <TextView
+        android:id="@+id/RnextStaEName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="20px"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="站点英文名称"
+        />
+
+    <TextView
+        android:id="@+id/RnextStaEName2"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="50px"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="备用"
+        />
+
+    <RelativeLayout
+        android:layout_width="440px"
+        android:layout_height="250px"
+        android:layout_marginTop="60px"
+        android:layout_marginLeft="15px">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:text="本次车距本站"
+            android:textSize="60px"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Rto_station"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15px"
+            android:layout_centerHorizontal="true"
+            android:text="暂无"
+            android:textSize="100px"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="440px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60px"
+            android:layout_marginLeft="30px"
+            android:visibility="invisible">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="下次车距本站"
+                android:textSize="45px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/Rnextto_station"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="暂无"
+                android:textSize="45px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <!--
+    <LinearLayout
+        android:layout_width="430px"
+        android:layout_marginTop="70px"
+        android:layout_marginLeft="20px"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="下次车距本站"
+            android:textSize="35px"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_weight="0"
+            android:id="@+id/Rnextto_station"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="10站"
+            android:textSize="35px"
+
+            android:gravity="right"
+            android:textColor="#ffffff"
+            android:layout_gravity="right"
+            android:textStyle="bold"
+            />
+    </LinearLayout> -->
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15px"
+        android:text="文明出行"
+        android:textSize="60px"
+        android:layout_gravity="center"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="有序乘车"
+        android:textSize="60px"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        />
+</LinearLayout>

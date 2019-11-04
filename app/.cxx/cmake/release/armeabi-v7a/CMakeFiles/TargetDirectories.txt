@@ -1,0 +1,3 @@
+D:/video_vlc/videopost_vlc/app/.cxx/cmake/release/armeabi-v7a/CMakeFiles/streamer.dir
+D:/video_vlc/videopost_vlc/app/.cxx/cmake/release/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/video_vlc/videopost_vlc/app/.cxx/cmake/release/armeabi-v7a/CMakeFiles/rebuild_cache.dir

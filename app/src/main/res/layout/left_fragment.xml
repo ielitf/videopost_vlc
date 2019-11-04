@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left">
+        <ImageView
+            android:id="@+id/LDirImg"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10px"
+            android:layout_marginRight="10px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/right"
+            />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="15px"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/LdstStationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:textSize="35px"
+                android:text="开往XXXX方向"
+                />
+
+            <TextView
+                android:id="@+id/LdstStationEName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="Bound to XXXX Station"
+                android:textColor="#ffffff"
+                android:textSize="20px"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/devision_line"
+        />
+    <TextView
+        android:layout_height="50px"
+        android:layout_width="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="40px"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="10px"
+        android:text="下一站"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="20px"
+        android:textSize="20px"
+        android:text="Next station" />
+
+    <TextView
+        android:id="@+id/LnextStaName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:maxEms="8"
+        android:layout_marginTop="10px"
+        android:textColor="#ffffff"
+        android:textSize="50px"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="站点名称" />
+
+    <TextView
+        android:id="@+id/LnextStaEName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textSize="20px"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="站点英文名称" />
+
+    <TextView
+        android:id="@+id/LnextStaEName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="50px"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="440px"
+        android:layout_height="250px"
+        android:layout_marginTop="60px"
+        android:layout_marginLeft="15px">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:text="下次车距本站"
+            android:textSize="60px"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Lto_station"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15px"
+            android:text="暂无"
+            android:textSize="100px"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <!-- 下面这个只进行简单地隐藏，否则要改动很多代码 -->
+        <RelativeLayout
+            android:layout_width="440px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60px"
+            android:layout_marginLeft="15px"
+            android:visibility="invisible">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="下次车距本站"
+                android:textSize="45px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/Lnextto_station"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="暂无"
+                android:textSize="45px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="25px"
+        android:text="文明出行"
+        android:textSize="60px"
+        android:layout_gravity="center"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="有序乘车"
+        android:textSize="60px"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        />
+
+</LinearLayout>

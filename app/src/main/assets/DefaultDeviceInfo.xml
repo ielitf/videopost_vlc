@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AppConfig>
+    <Identify>0123456789ab00302201</Identify> <!-- 002线路ID， 02代表2站， 1代表上行， 01屏号 -->
+    <ServerIp>172.16.30.254</ServerIp>
+    <ServerPort>8899</ServerPort>
+    <InfoPubliAshServer>tcp://192.168.1.11:1883</InfoPubliAshServer>
+    <DevType>11</DevType> <!-- 11:videoPost 12:signPost 13:linePost 十六进制 -->
+    <CurrentStationID>2</CurrentStationID>
+    <NextStationID>2</NextStationID>
+    <ThemeStyle>1</ThemeStyle> <!-- 1默认， 2镜像， 3第二主题， 4第二主题镜像 -->
+    <TextType>0</TextType> <!-- default: 0 -->
+    <TextColor>#FFFFFFFF</TextColor> <!-- ARGB #FFFFFFFF 为完全不透明的白色 -->
+    <TextSize>1</TextSize> <!-- 0: small  1: middle  2: large -->
+    <TextFont>heiti</TextFont> <!-- heiti: 黑体 songti: 宋体 kaiti: 楷体 lishu: 隶书 -->
+    <TextSpeed>1</TextSpeed> <!-- 0:slow 1:normal 2:fast -->
+    <PicDispTime>5000</PicDispTime> <!-- ms -->
+    <VideoPlayTime>600</VideoPlayTime> <!-- second, default invalid 0 -->
+</AppConfig>

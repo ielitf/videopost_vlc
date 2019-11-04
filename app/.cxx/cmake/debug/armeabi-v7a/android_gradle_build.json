@@ -1,0 +1,42 @@
+{
+  "stringTable": {
+    "0": "D:/video_vlc/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a",
+    "1": "--target=armv7-none-linux-androideabi22 --gcc-toolchain=D:/studioWork/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/studioWork/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dstreamer_EXPORTS -ID:/video_vlc/videopost_vlc/app/src/main/cpp/include -ID:/video_vlc/videopost_vlc/app/src/main/cpp/include/vlc -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "D:\\studioWork\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake",
+    "D:\\studioWork\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\platforms.cmake",
+    "D:\\video_vlc\\videopost_vlc\\app\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "streamer-Debug-armeabi-v7a": {
+      "buildCommand": "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" streamer",
+      "buildType": "debug",
+      "toolchain": "702069244",
+      "abi": "armeabi-v7a",
+      "artifactName": "streamer",
+      "files": [
+        {
+          "src": "D:\\video_vlc\\videopost_vlc\\app\\src\\main\\cpp\\streamer.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\video_vlc\\videopost_vlc\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libstreamer.so"
+    }
+  },
+  "toolchains": {
+    "702069244": {
+      "cppCompilerExecutable": "D:\\studioWork\\Sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

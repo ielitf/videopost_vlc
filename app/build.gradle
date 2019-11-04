@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.ceiv.videopost"
+        minSdkVersion 22
+        targetSdkVersion 26
+        versionCode 21
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+        sourceSets {
+            main {
+                //jni.srcDirs = ['src/main/cpp']
+                //jniLibs.srcDirs 'src/main/cpp/libs'
+//                jniLibs.srcDirs = ['libs']
+                assets.srcDirs = ['src/main/assets', '../assets/']
+            }
+        }
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("videopost.jks")
+            storePassword "ceiv123"
+            keyAlias "videopost"
+            keyPassword "ceiv123"
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+}
+
+repositories{
+    flatDir {
+        dirs 'libs'
+    }
+}
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.alibaba:fastjson:1.2.62'
+    implementation files('libs/mina-core-2.0.19.jar')
+    implementation files('libs/org.eclipse.paho.android.service-1.1.1.jar')
+    implementation files('libs/org.eclipse.paho.client.mqttv3-1.1.1.jar')
+    implementation files('libs/protobuf-java-3.6.0.jar')
+    implementation files('libs/protobuf-java-util-3.6.0.jar')
+    implementation files('libs/slf4j-android-1.7.25.jar')
+    implementation files('libs/slf4j-api-1.7.25.jar')
+    implementation files('libs/dom4j-2.0.2.jar')
+    implementation files('libs/log4j-1.2.17.jar')
+    implementation files('libs/android-logging-log4j-1.0.3.jar')
+    implementation(name: 'libvlc-armv7-3.2-eap10', ext: 'aar')
+}

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1920px"
+    android:layout_height="1080px"
+    android:background="@drawable/main_bg_img">
+    <!--
+    <ImageView
+        android:layout_width="1920px"
+        android:layout_height="1080px"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_x="0px"
+        android:layout_y="0px"
+        android:src="@drawable/main_bg_img"
+        /> -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_width="1920px"
+        android:layout_height="162px"
+        >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"></LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/fzStaName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:textSize="70px"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:text="银海玉洞路口站" />
+            <TextView
+                android:id="@+id/fzStaEName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textSize="30px"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:text="Yinhaiyudonglukou Station" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="462px"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/data"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:textColor="#ffffff"
+                    android:textSize="35px"
+                    android:layout_weight="1"
+                    android:text="日期"/>
+                <TextClock
+                    android:id="@+id/text_md"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:format24Hour="yyy年M月d日"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="35px"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="462px"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="35px"
+                    android:text="时间"
+                    android:layout_weight="1"
+                    />
+                <TextClock
+                    android:id="@+id/text_hm"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:format24Hour="HH:mm"
+                    android:gravity="right"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="35px"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="462px"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tem"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:textColor="#ffffff"
+                    android:textSize="35px"
+                    android:text="气温"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:id="@+id/zTempView"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textColor="#FFFFFFFF"
+                    android:gravity="right"
+                    android:textSize="35px"
+                    android:text="24~29°C"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/re_zdi"
+        android:layout_marginTop="185px"
+        android:layout_marginLeft="485px"
+        android:layout_width="950px"
+        android:layout_height="710px"
+        android:gravity="center">
+        <!--<VideoView-->
+            <!--android:id="@+id/zViceVideoView"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--/>-->
+    </RelativeLayout>
+    <!--
+    <VideoView
+        android:id="@+id/zViceVideoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="485px"
+        android:layout_marginRight="485px"
+        android:layout_marginTop="270px"
+        android:layout_gravity="center"
+        ></VideoView> -->
+    <!--
+    <com.ceiv.videopost.MarqueeTextView
+        android:layout_marginTop="945px"
+        android:layout_marginLeft="820px"
+        android:layout_width="600px"
+        android:layout_height="162px"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:singleLine="true"
+        android:text="欢迎来到南宁 欢迎来到南宁"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="60px"
+        /> -->
+    <!--<com.ceiv.View.AutoScrollTextView-->
+        <!--android:id="@+id/ZViceScrollView"-->
+        <!--android:layout_marginTop="920px"-->
+        <!--android:layout_marginLeft="780px"-->
+        <!--android:layout_width="650px"-->
+        <!--android:layout_height="140px"-->
+        <!--android:scrollbars="none">-->
+    <!--</com.ceiv.View.AutoScrollTextView>-->
+
+    <com.ceiv.View.ScrollTextSurfaceView
+        android:id="@+id/ZViceScrollView"
+        android:layout_marginTop="920px"
+        android:layout_marginLeft="780px"
+        android:layout_width="650px"
+        android:layout_height="140px" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="185px"
+        android:layout_marginLeft="9px"
+        android:layout_alignParentLeft="true"
+        android:layout_width="462px"
+        android:layout_height="1740px"
+        >
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="100px"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="100px"
+            android:text="终点站"
+            />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textSize="40px"
+            android:text="Zhongdian Station"
+            />
+
+        <RelativeLayout
+            android:layout_width="440px"
+            android:layout_height="250px"
+            android:layout_marginTop="105px"
+            android:layout_marginLeft="15px">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="本次车距本站"
+                android:textSize="60px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fZLto_station"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15px"
+                android:text="暂无"
+                android:textSize="100px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="440px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60px"
+                android:layout_marginLeft="15px"
+                android:visibility="invisible">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="下次车距本站"
+                    android:textSize="45px"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/fZLnextto_station"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="暂无"
+                    android:textSize="45px"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="40px"
+            android:text="文明出行"
+            android:textSize="60px"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="有序乘车"
+            android:textSize="60px"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="185px"
+        android:layout_alignParentRight="true"
+        android:layout_width="462px"
+        android:layout_marginRight="9px"
+        android:layout_height="1740px">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="100px"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="100px"
+            android:text="终点站"
+            />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textSize="40px"
+            android:text="Zhongdian Station"
+            />
+
+        <RelativeLayout
+            android:layout_width="440px"
+            android:layout_height="250px"
+            android:layout_marginTop="105px"
+            android:layout_marginLeft="15px">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="本次车距本站"
+                android:textSize="60px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fZRto_station"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15px"
+                android:text="暂无"
+                android:textSize="100px"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="440px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60px"
+                android:layout_marginLeft="15px"
+                android:visibility="invisible">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:text="下次车距本站"
+                    android:textSize="45px"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/fZRnextto_station"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="暂无"
+                    android:textSize="45px"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="40px"
+            android:text="文明出行"
+            android:textSize="60px"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="有序乘车"
+            android:textSize="60px"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

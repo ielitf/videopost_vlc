@@ -1,0 +1,149 @@
+<stations>
+	<segment dir="downline">
+		<!-- 默认从起点站到终点站的方向为下行，从终点站到起点站的方向为上行 -->
+		<station>
+			<name>银海玉洞路口站</name>
+			<ename>YINHAIYUDONG LUKOU</ename>
+			<dualserial>15</dualserial>
+		</station>
+		<station>
+			<name>玉洞红玉路口站</name>
+			<ename>YUDONGHONGYU LUKOU</ename>
+			<dualserial>16</dualserial>
+		</station>
+		<station>
+			<name>玉洞东风路口西站</name>
+			<ename>YUDONGDONGFENG LUKOU West</ename>
+			<dualserial>17</dualserial>
+		</station>
+		<station>
+			<name>玉洞东风路口东站</name>
+			<ename>YUDONGDONGFENG LUKOU Eest</ename>
+			<dualserial>18</dualserial>
+		</station>
+		<station>
+			<name>玉洞玉象路口站</name>
+			<ename>YUDONGYUXIANG LUKOU</ename>
+			<dualserial>19</dualserial>
+		</station>
+		<station>
+			<name>五象湖公园站</name>
+			<ename>WUXIANGHU Park</ename>
+			<dualserial>20</dualserial>
+		</station>
+		<station>
+			<name>五象湖（平乐玉洞立交）站</name>
+			<ename>WUXIANGHU(PINGLEYUDONG Flyover)</ename>
+			<dualserial>21</dualserial>
+		</station>
+		<station>
+			<name>玉洞那黄路口站</name>
+			<ename>YUDONGNAHUANG LUKOU</ename>
+			<dualserial>22</dualserial>
+		</station>
+		<station>
+			<name>玉洞瓦村路口站</name>
+			<ename>YUDONGWACUN LUKOU</ename>
+			<dualserial>23</dualserial>
+		</station>
+		<station>
+			<name>玉洞延庆路口站</name>
+			<ename>YUDONGYANQING LUKOU</ename>
+			<dualserial>24</dualserial>
+		</station>
+		<station>
+			<name>玉洞新良路口站</name>
+			<ename>YUDONGXINLIANG LUKOU</ename>
+			<dualserial>25</dualserial>
+		</station>
+		<station>
+			<name>玉洞永福路口站</name>
+			<ename>YUDONGYONGFU LUKOU</ename>
+			<dualserial>26</dualserial>
+		</station>
+		<station>
+			<name>园博园北门站</name>
+			<ename>Garden Expo Park North Gate</ename>
+			<dualserial>27</dualserial>
+		</station>
+		<station>
+			<name>园博园站</name>
+			<ename>Garden Expo Park</ename>
+			<dualserial>28</dualserial>
+		</station>
+	</segment>
+	<segment dir="upline">
+		<station>
+			<name>园博园站</name>
+			<ename>Garden Expo Park</ename>
+			<dualserial>1</dualserial>
+		</station>
+		<station>
+			<name>园博园北门站</name>
+			<ename>Garden Expo Park North Gate</ename>
+			<dualserial>2</dualserial>
+		</station>
+		<station>
+			<name>玉洞永福路口站</name>
+			<ename>YUDONGYONGFU LUKOU</ename>
+			<dualserial>3</dualserial>
+		</station>
+		<station>
+			<name>玉洞新良路口站</name>
+			<ename>YUDONGXINLIANG LUKOU</ename>
+			<dualserial>4</dualserial>
+		</station>
+		<station>
+			<name>玉洞延庆路口站</name>
+			<ename>YUDONGYANQING LUKOU</ename>
+			<dualserial>5</dualserial>
+		</station>
+		<station>
+			<name>玉洞瓦村路口站</name>
+			<ename>YUDONGWACUN LUKOU</ename>
+			<dualserial>6</dualserial>
+		</station>
+		<station>
+			<name>玉洞那黄路口站</name>
+			<ename>YUDONGNAHUANG LUKOU</ename>
+			<dualserial>7</dualserial>
+		</station>
+		<station>
+			<name>五象湖（平乐玉洞立交）站</name>
+			<ename>WUXIANGHU(PINGLEYUDONG Flyover)</ename>
+			<dualserial>8</dualserial>
+		</station>
+		<station>
+			<name>五象湖公园站</name>
+			<ename>WUXIANGHU Park</ename>
+			<dualserial>9</dualserial>
+		</station>
+		<station>
+			<name>玉洞玉象路口站</name>
+			<ename>YUDONGYUXIANG LUKOU</ename>
+			<dualserial>10</dualserial>
+		</station>
+		<station>
+			<name>玉洞东风路口东站</name>
+			<ename>YUDONGDONGFENG LUKOU Eest</ename>
+			<dualserial>11</dualserial>
+		</station>
+		<station>
+			<name>玉洞东风路口西站</name>
+			<ename>YUDONGDONGFENG LUKOU West</ename>
+			<dualserial>12</dualserial>
+		</station>
+		<station>
+			<name>玉洞红玉路口站</name>
+			<ename>YUDONGHONGYU LUKOU</ename>
+			<dualserial>13</dualserial>
+		</station>
+		<station>
+			<name>银海玉洞路口站</name>
+			<ename>YINHAIYUDONG LUKOU</ename>
+			<dualserial>14</dualserial>
+		</station>
+	</segment>
+</stations>
+
+

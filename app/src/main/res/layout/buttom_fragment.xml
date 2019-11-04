@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+    <com.ceiv.videopost.MarqueeTextView
+        android:id="@+id/scrollView"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:singleLine="true"
+        android:text="欢迎来到南宁 欢迎来到南宁"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="60px" />
+
+    <TextView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="欢迎来到南宁 欢迎来到南宁"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="60px"
+        />  -->
+    <!--
+    <TextView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:textIsSelectable="true"
+        android:lineSpacingExtra="10px"
+        android:lineSpacingMultiplier="1.2"
+        android:singleLine="false"
+        android:maxLines="2"
+        android:text=""
+        android:textSize="40px"
+        android:textColor="#ffffff"
+        /> -->
+
+    <!--
+    <com.ceiv.View.AutoScrollTextView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+    </com.ceiv.View.AutoScrollTextView> -->
+
+    <!-- 测试改良版滚动字幕 -->
+    <!--<com.ceiv.View.AutoVerticalScrollTextView-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scrollbars="none"/>-->
+
+    <!-- 测试surfaceview版滚动字幕 -->
+    <com.ceiv.View.ScrollTextSurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</android.support.constraint.ConstraintLayout>
