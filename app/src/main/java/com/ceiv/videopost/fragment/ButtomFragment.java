@@ -59,12 +59,12 @@ public class ButtomFragment  extends Fragment {
         if (DeviceInfoUtils.DeviceInfoUtilsInit(getActivity())) {
             DeviceInfo deviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
             if (deviceInfo != null) {
+                Log.e(TAG, "字体大小:"+deviceInfo.getTextSize()+"/字体颜色："+deviceInfo.getTextColor()+"/字体："+deviceInfo.getTextFont());
                 displayParametersInit(deviceInfo.getTextSize(), deviceInfo.getTextColor(),
                         deviceInfo.getTextFont(), deviceInfo.getTextSpeed());
             }
         }
         displayTextInit();
-
         show();
 
         return view;
