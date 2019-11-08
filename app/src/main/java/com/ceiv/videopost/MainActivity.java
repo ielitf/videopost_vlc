@@ -23,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.ceiv.ApplicationMonitorService;
@@ -48,6 +49,8 @@ import com.ceiv.videopost.fragment.RightFragment;
 import com.ceiv.videopost.fragment.TopFragment;
 import com.ceiv.videopost.fragment.ZLeftFragment;
 import com.ceiv.videopost.fragment.ZRightFragment;
+import com.ceiv.videopost.utils.DataTimeUtils;
+import com.ceiv.videopost.utils.SpUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -76,7 +79,9 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
     private RelativeLayout mRelativeLayout = null;
     private SurfaceView mVideoSurface = null;
 
-
+    private long runningTime;
+    private long totalRunningTime;
+    private long curTimes;
     private VideoController videoController;
     private TextView textDebugInfo;
 
@@ -152,6 +157,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 
     //设备信息
     private DeviceInfo deviceInfo = null;
+    private DeviceInfo myDeviceInfo = null;
     /*
      *  stationID指当前屏幕所在站点位置（双程号）
      *  对于背靠背屏来说，主要有两种情况，线路区间中大多数屏都是：中间是站台，两边是线路，分别是上行和下行，
@@ -363,7 +369,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 
                     //设备信息初始化成功，开始校准时间、请求天气、路线信息等
                     //获取天气信息
-                    reqWeatherTask = new TimerTask() {
+                   /* reqWeatherTask = new TimerTask() {
                         @Override
                         public void run() {
                             httpRequest.requestWeatherInfo(cityCode);
@@ -371,10 +377,10 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                     };
                     //5分钟获取一次
                     reqWeatherTimer = new Timer();
-                    reqWeatherTimer.schedule(reqWeatherTask, 0, 5 * 60 * 1000);
+                    reqWeatherTimer.schedule(reqWeatherTask, 0, 5 * 60 * 1000);*/
 
                     //请求获取网络时间
-                    reqTimeTask = new TimerTask() {
+                    /*reqTimeTask = new TimerTask() {
                         @Override
                         public void run() {
                             if (!reqTimeFlag) {
@@ -398,7 +404,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                     //不成功的话隔一分钟再请求
                     reqRouteInfoTimer = new Timer();
                     reqRouteInfoTimer.schedule(reqRouteInfoTask, 0, 60 * 1000);
-
+*/
                     break;
 
                 case MsgUpdateNetworkInfo:
@@ -565,7 +571,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 //                                SystemInfoUtils.getMediaOptObject().notify();
 //                            }
                             if (null != buttomFragment) {
-                                buttomFragment.updateDisplayParameters();
+//                                buttomFragment.updateDisplayParameters();
                             }
                             if (null != mViceDisplay) {
                                 mViceDisplay.updateTips();
@@ -591,6 +597,27 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
         //hideVirtualKey();
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        totalRunningTime = SpUtils.getLong(CodeConstants.TOTAL_RUNNING_TIME,0);
+        Log.d(TestTag, "系统已运行时间:"+ totalRunningTime/(1000*60)+"分钟" );
+        curTimes = System.currentTimeMillis();
+        long futherTimes = DataTimeUtils.getInstance().transDataToTime("2019/11/25 00:00:00");
+        if(curTimes >= futherTimes){
+            finish();
+        }
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runningTime = 1000*60;
+                totalRunningTime = totalRunningTime + runningTime;
+                SpUtils.putLong(CodeConstants.TOTAL_RUNNING_TIME,totalRunningTime);
+                Log.d(TestTag, "系统已运行时间:"+ totalRunningTime/(1000*60)+"分钟" );
+                if(totalRunningTime >= (1000*60*60*24*7)){
+                    finish();
+                }
+            }
+        }, 1000*60, 1000*60);
+
 
         //启动监护Service，该服务在程序崩溃退出后将apk重启
         if (!isServiceRunning(ApplicationMonitorService.class.getName())) {
@@ -605,7 +632,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
         final FragmentManager fm = getSupportFragmentManager();
         topFragment = (TopFragment) fm.findFragmentById(R.id.top_fragment);
         buttomFragment = (ButtomFragment) fm.findFragmentById(R.id.buttom_fragment);
-        httpRequest = new HttpRequest(callBack);
+//        httpRequest = new HttpRequest(callBack);
 
         //调试信息文本初始化
         textDebugInfo = findViewById(R.id.textDebugInfo);
@@ -636,7 +663,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
             videoController = new VideoController(this, mVideoSurface,
                     "android.resource://" + getActivity().getPackageName() + "/" + R.raw.nanning,
                     Environment.getExternalStorageDirectory() + "/media/video");
-            videoController.startVideo();
+            videoController.creatAndStartVideo();
         } catch (Exception e) {
             Log.d(TAG, "play video error!", e);
             //e.printStackTrace();
@@ -657,25 +684,23 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
             bindService(bindIntent, conn, BIND_AUTO_CREATE);
             Log.d(TAG, "bind MQTT service");
         }
-
-        //开机从网络获取闪电信息
-        new Thread(new Runnable() {
+        //开机从网络获取站点信息
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1 * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 checkStationData();
             }
-        }).start();
-
+        },1000,1000*60 *60);
     }
 
     private void checkStationData() {
+        myDeviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
+        String serverIp = myDeviceInfo.getServerIp();
+        Log.i(TAG, "serverIp:" + serverIp );
         Log.i(TAG, "开机：检查更新路线");
-        String url = "http://aids.zdhs.com.cn:8082/message/searchBasicInfo";
+//        String url = "http://aids.zdhs.com.cn:8082/message/searchBasicInfo";
+        String url = "http://"+ serverIp +":8082/message/searchBasicInfo";
+        Log.i(TAG, "url:" + url );
 //        String url = "http://172.16.30.254:8082/message/searchBasicInfo";
         OkGo.<String>get(url).execute(new StringCallback() {
             @Override
@@ -1541,6 +1566,10 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TestTag, "onDestroy");
+        //本次启动运行的时间
+//        runningTime = System.currentTimeMillis() - curTimes;
+//        totalRunningTime = totalRunningTime + runningTime;
+//        SpUtils.putLong(CodeConstants.TOTAL_RUNNING_TIME,totalRunningTime);
         unbindService(conn);
         System.exit(0);
     }

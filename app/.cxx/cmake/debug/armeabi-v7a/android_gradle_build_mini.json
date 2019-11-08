@@ -1,19 +1,19 @@
 {
   "buildFiles": [
-    "D:\\studioWork\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake",
-    "D:\\studioWork\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\platforms.cmake",
-    "D:\\video_vlc\\videopost_vlc\\app\\src\\main\\cpp\\CMakeLists.txt"
+    "D:\\studiowork\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\platforms.cmake",
+    "D:\\studiowork\\Sdk\\ndk\\20.0.5594570\\build\\cmake\\android.toolchain.cmake",
+    "D:\\studiowork\\videopost_vlc\\app\\src\\main\\cpp\\CMakeLists.txt"
   ],
   "cleanCommands": [
-    "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" clean"
+    "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\studiowork\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" clean"
   ],
-  "buildTargetsCommand": "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "buildTargetsCommand": "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\studiowork\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
   "libraries": {
     "streamer-Debug-armeabi-v7a": {
       "artifactName": "streamer",
-      "buildCommand": "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\video_vlc\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" streamer",
+      "buildCommand": "D:\\studioWork\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\studiowork\\videopost_vlc\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" streamer",
       "abi": "armeabi-v7a",
-      "output": "D:\\video_vlc\\videopost_vlc\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libstreamer.so"
+      "output": "D:\\studiowork\\videopost_vlc\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libstreamer.so"
     }
   }
 }

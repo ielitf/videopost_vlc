@@ -1,4 +1,4 @@
-package com.ceiv.videopost;
+package com.ceiv.videopost.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,6 +29,12 @@ public class SpUtils {
         editor.putInt(key, value);
         return editor.commit();
     }
+    public static boolean putLong(String key, long value) {
+        SharedPreferences settings =context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putLong(key, value);
+        return editor.commit();
+    }
 
     public static boolean containsKey(Context context, String key){
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -48,6 +54,10 @@ public class SpUtils {
     public static int getInt(String key, int def) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return settings.getInt(key,def);
+    }
+    public static long getLong(String key, long def) {
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return settings.getLong(key,def);
     }
 
 

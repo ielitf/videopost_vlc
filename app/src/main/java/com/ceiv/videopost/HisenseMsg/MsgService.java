@@ -6,40 +6,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Binder;
 import android.os.IBinder;
 //import android.util.Log;
+import com.ceiv.communication.utils.DeviceInfo;
+import com.ceiv.communication.utils.DeviceInfoUtils;
 import com.ceiv.log4j.Log;
-
-import android.widget.Toast;
 
 import com.ceiv.communication.utils.SystemInfoUtils;
 import com.ceiv.videopost.CodeConstants;
-import com.ceiv.videopost.SpUtils;
+import com.ceiv.videopost.utils.SpUtils;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -48,7 +40,6 @@ import java.util.concurrent.TimeUnit;
 public  class MsgService extends Service {
 
     private final static String TAG = "MsgService";
-
     private final static String ArrLeftDataTag = "ArrLeftDataTag";
     private final static String GpsDataTag = "GpsDataTag";
 
@@ -61,17 +52,18 @@ public  class MsgService extends Service {
 
     //海信服务器地址
 //    public static final String BROKER_URL = "tcp://172.16.10.37:1883";
-    public static final String BROKER_URL = "tcp://aids.zdhs.com.cn:1883";
+    public static  String BROKER_URL = "";//见初始化
+//    public static  String BROKER_URL = "tcp://aids.zdhs.com.cn:1883";
 //    public static final String BROKER_URL = "tcp://172.16.30.254:1883";
     //    public static final String clientId = "ceiv-client";
     public String clientId;
     public static final String TopicArrLev = "TopicArrLev";
     public static final String TopicGPS = "TopicGPS";
     public static final String TopicBrt = "com/ceiv/busmsg/zzbrt";
-        private String userName = "admin"; // 连接的用户名
-    private String passWord = "pi@1415"; //连接的密码
-//    private String userName = "zzx"; // 连接的用户名
-//    private String passWord = "zzx"; //连接的密码
+//        private String userName = "admin"; // 连接的用户名
+//    private String passWord = "pi@1415"; //连接的密码
+    private String userName = "zzx"; // 连接的用户名
+    private String passWord = "zzx"; //连接的密码
 
 //    public static final String BROKER_URL = "tcp://192.168.43.45:1883";
 //    public static final String clientId = "android-client";
@@ -138,7 +130,11 @@ public  class MsgService extends Service {
         appContext = getApplicationContext();
         clientId = SystemInfoUtils.getMqttClientId()+"111";
         routeId = SpUtils.getString(CodeConstants.ROUTE_ID);
-        Log.d(TAG, "Mqtt Client ID: " + clientId);
+        DeviceInfo deviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
+        String serverIp = deviceInfo.getServerIp();
+        Log.d(TAG, "serverIp: " + serverIp);
+        BROKER_URL = "tcp://"+ serverIp + ":1883";
+        Log.d(TAG, "BROKER_URL: " + BROKER_URL +"/Mqtt Client ID: " + clientId);
         init();           //初始化相关配置
         startConnect();        //连接mqtt服务器
         super.onCreate();

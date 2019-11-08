@@ -41,10 +41,10 @@ public class FileSetDownload {
 
     public static class FileDownloadItem {
 
-        public FileDownloadItem(NetMgrDefine.MediaTypeEnum mediaTypeEnum, String name,String md5num) {
-                this.fileType = mediaTypeEnum;
-                this.fileName = name;
-                this.md5num = md5num;
+        public FileDownloadItem(NetMgrDefine.MediaTypeEnum mediaTypeEnum, String name, String md5num) {
+            this.fileType = mediaTypeEnum;
+            this.fileName = name;
+            this.md5num = md5num;
         }
 
         //文件的类型
@@ -70,7 +70,6 @@ public class FileSetDownload {
     public interface FileSetDownloadCallBack {
         public void download(int result);
     }
-
 
 
     private String basePath;
@@ -112,7 +111,7 @@ public class FileSetDownload {
         serverTextPath = mediaServerPrefix + "/text";
 
         //和SingleThreadExecutor功能一样
-        downloadThreadPool = new DownloadThreadPool(1,1,
+        downloadThreadPool = new DownloadThreadPool(1, 1,
                 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), callBack);
 
     }
@@ -214,13 +213,15 @@ public class FileSetDownload {
                     } else {
                         Log.d(TAG, "download file:" + item.fileName + ", size:" + contentLength + "Byte success");
                         String md5 = getFileMD5String(file, 8196, false).toUpperCase();
-                        Log.d(TAG, "file md5:" + md5);
-                        if (item.md5num.equals(md5)){
+                        Log.d(TAG, "file md5:" + md5 + " server MD5：" + item.md5num);
+                        if (item.md5num.equals(md5)) {
                             item.status = DOWNLOAD_FINISHED;
                             item.result = SUCCESS;
-                        }else {
+                            Log.d(TAG, "MD5成功");
+                        } else {
                             item.status = DOWNLOAD_FINISHED;
                             item.result = FILE_WRITE_ERROR;
+                            Log.d(TAG, "MD5失败");
                         }
 
                     }
@@ -249,7 +250,6 @@ public class FileSetDownload {
             }
         }
     }
-
 
 
     private class DownloadThreadPool extends ThreadPoolExecutor {

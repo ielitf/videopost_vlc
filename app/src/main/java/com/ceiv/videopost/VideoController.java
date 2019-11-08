@@ -28,14 +28,15 @@ import java.util.ArrayList;
  * Created by zhangdawei on 2018/9/12.
  */
 
-public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
+public class VideoController implements IVLCVout.OnNewVideoLayoutListener, IPlay {
 
     private final static String TAG = "VideoController";
     private static final String SAMPLE_URL = "rtp://@238.0.0.111:5004";
-
+    private Boolean isSurfaceViewAdded = false;
     private SurfaceView surfaceView;
     private String defVideoUri = null;
     private String videoPath = null;
+    private String mediaPath;
 
     private RelativeLayout mRelativeLayout = null;
     //private SurfaceView mVideoSurface = null;
@@ -120,7 +121,7 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
         }
     }
 
-    public VideoController(Context context,SurfaceView surfaceView, String defVideoUri, String videoPath) throws Exception{
+    public VideoController(Context context, SurfaceView surfaceView, String defVideoUri, String videoPath) throws Exception {
         this.context = context;
         sendRtsp = ProperTies.getProperties(context).getProperty("sendrtsp");
         //检查参数是否合法
@@ -128,7 +129,9 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
                 || videoPath == null || "".equals(videoPath)) {
             throw new Exception("Invalid arguments!");
         }
-        streamer = new Streamer();
+        if (streamer == null) {
+            streamer = new Streamer();
+        }
 
         final ArrayList<String> args = new ArrayList<>();
 //        args.add("-vvv");
@@ -164,56 +167,44 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
     /* 视频操作相关 */
 
     //停止播放视频，playDefRes代表停止播放后是否播放应用自带的视频文件
-    public void stopVideo(boolean playDefRes)
-    {
-        if (surfaceView != null && mMediaPlayer != null) {
-            mMediaPlayer.stop();
-            videoList.clear();
-            if (playDefRes) {
-                playDefaultVideo();
-            }
-        }
+    public void stopVideo(boolean playDefRes) {
+
+        //
+        Log.w(TAG, "停止播放");
+//        videoList.clear();
+//        streamer.stop();
+//        if (surfaceView != null && mMediaPlayer != null && streamer !=null) {
+//            mMediaPlayer.stop();
+//            videoList.clear();
+//            streamer.stop();
+//            streamer.del(mediaPath);
+//            streamer = null;
+//            streamer = new Streamer();
+//            if (playDefRes) {
+//                playDefaultVideo();
+//            }
+//        }
     }
 
     public void refreshVideoList() {
-        stopVideo(false);
-        startVideo();
-    }
-
-    //开始播放视频
-    public void startVideo()
-    {
-        if (null == mMediaPlayer) {
-            Log.d(TAG, "Get mMediaPlayer failed!");
-            return;
-        }
-        if (null == surfaceView) {
-            Log.d(TAG, "Get surfaceView failed!");
-            return;
-        }
-
-        IVLCVout vlcVout = mMediaPlayer.getVLCVout();
-        vlcVout.setVideoView(surfaceView);
-        vlcVout.attachViews(this);
-        vlcVout.setWindowSize(950, 710);
-        mMediaPlayer.setScale(0);
-        mMediaPlayer.setAspectRatio("" + 950 + ":" + 710);
-
+        Log.w(TAG, "刷新视频列表");
+        videoList.clear();
         //首先搜索sd卡的/media/video目录，重新建立播放列表
         File pathFile = new File(videoPath);
-        Log.d(TAG, videoPath + " 存在？"+pathFile.exists());
-        if(!pathFile.exists()){
+        Log.d(TAG, videoPath + " 存在？" + pathFile.exists());
+        if (!pathFile.exists()) {
             pathFile.mkdirs();
         }
 
         if (!pathFile.isDirectory()) {
             Log.d(TAG, "VideoPath: " + videoPath + " is not a directory!");
+            streamer.stop(false);
             playDefaultVideo();
             return;
         }
         //生成播放列表
         videoList = new ArrayList<File>();
-        for(File tmp : pathFile.listFiles()) {
+        for (File tmp : pathFile.listFiles()) {
             if (tmp.isFile()) {
                 videoList.add(tmp);
             }
@@ -224,8 +215,71 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
 
         //如果本地没有视屏文件，则循环播放自带的视频文件
         if (videoCount == 0) {
-            Log.d(TAG, "本地没有视屏文件：开始播放默认视频");
+            Log.d(TAG, "refreshVideoList（） 本地没有视屏文件：开始播放默认视频");
+            streamer.stop(false);
             playDefaultVideo();
+            return;
+        }
+        if ("yes;".equals(sendRtsp)) {
+            mediaPath = videoList.get(curVideoIndex).getAbsolutePath();
+            streamer.stop(false);
+            streamer.creat(videoList.get(curVideoIndex).getAbsolutePath(), "238.0.0.111", 5004, VideoController.this);
+        }
+    }
+
+    //开始播放视频
+    public void creatAndStartVideo() {
+        Log.w(TAG, "开始播");
+        if (null == mMediaPlayer) {
+            Log.d(TAG, "Get mMediaPlayer failed!");
+            return;
+        }
+        if (null == surfaceView) {
+            Log.d(TAG, "Get surfaceView failed!");
+            return;
+        }
+
+        IVLCVout vlcVout = mMediaPlayer.getVLCVout();
+
+//        vlcVout.setVideoView(surfaceView);
+//        vlcVout.attachViews(this);
+        if (!isSurfaceViewAdded) {
+            vlcVout.setVideoView(surfaceView);
+            vlcVout.attachViews(this);
+            isSurfaceViewAdded = true;
+        }
+
+        vlcVout.setWindowSize(950, 710);
+        mMediaPlayer.setScale(0);
+        mMediaPlayer.setAspectRatio("" + 950 + ":" + 710);
+
+        //首先搜索sd卡的/media/video目录，重新建立播放列表
+        File pathFile = new File(videoPath);
+        Log.d(TAG, videoPath + " 存在？" + pathFile.exists());
+        if (!pathFile.exists()) {
+            pathFile.mkdirs();
+        }
+
+        if (!pathFile.isDirectory()) {
+            Log.d(TAG, "VideoPath: " + videoPath + " is not a directory!");
+            creatAndplayDefaultVideo();
+            return;
+        }
+        //生成播放列表
+        videoList = new ArrayList<File>();
+        for (File tmp : pathFile.listFiles()) {
+            if (tmp.isFile()) {
+                videoList.add(tmp);
+            }
+        }
+        //初始化播放视频标志
+        videoCount = videoList.size();
+        curVideoIndex = 0;
+
+        //如果本地没有视屏文件，则循环播放自带的视频文件
+        if (videoCount == 0) {
+            Log.d(TAG, "startVideo 本地没有视屏文件：开始播放默认视频");
+            creatAndplayDefaultVideo();
             return;
         }
 
@@ -235,14 +289,14 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
         mMediaPlayer.setMedia(media);
         media.release();
         isPlaying = true;
-        maxVideoTime = (int)mMediaPlayer.getLength();
+        maxVideoTime = (int) mMediaPlayer.getLength();
         curVideoTime = 0;
         MediaMetadataRetriever retr = new MediaMetadataRetriever();
         retr.setDataSource(videoList.get(curVideoIndex).getAbsolutePath());
         curWidth = Integer.valueOf(retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
         curHeight = Integer.valueOf(retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
         Log.d(TAG, "video: " + videoList.get(curVideoIndex).getName() +
-                " width: " + curWidth + " height: " + curHeight+" URI:"+Uri.parse("file://"+videoList.get(curVideoIndex).getAbsolutePath()));
+                " width: " + curWidth + " height: " + curHeight + " URI:" + Uri.parse("file://" + videoList.get(curVideoIndex).getAbsolutePath()));
         adjustLayoutParams();
 
         //设置播放结束监听器
@@ -262,14 +316,15 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
                             curVideoIndex = 0;
                         }
                         media = new Media(mLibVLC, Uri.parse(SAMPLE_URL.toString().trim()));
-                        maxVideoTime = (int)mMediaPlayer.getLength();
+                        maxVideoTime = (int) mMediaPlayer.getLength();
                         curVideoTime = 0;
                         Log.d(TAG, "gona to play video:" + videoList.get(curVideoIndex).getName());
                         mMediaPlayer.setMedia(media);
                         media.release();
                         mMediaPlayer.play();
-                        if ("yes;".equals(sendRtsp)){
-                            streamer.creat(videoList.get(curVideoIndex).getAbsolutePath(), "238.0.0.111", 5004,VideoController.this);
+                        if ("yes;".equals(sendRtsp)) {
+                            mediaPath = videoList.get(curVideoIndex).getAbsolutePath();
+                            streamer.creat(videoList.get(curVideoIndex).getAbsolutePath(), "238.0.0.111", 5004, VideoController.this);
                         }
                     }
                 } catch (Exception e) {
@@ -281,13 +336,27 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
         media.release();
         mMediaPlayer.play();
         Log.d(TAG, "###:" + sendRtsp);
-        if ("yes;".equals(sendRtsp)){
-            streamer.creat(videoList.get(curVideoIndex).getAbsolutePath(), "238.0.0.111", 5004,this);
+        if ("yes;".equals(sendRtsp)) {
+            mediaPath = videoList.get(curVideoIndex).getAbsolutePath();
+            streamer.creat(videoList.get(curVideoIndex).getAbsolutePath(), "238.0.0.111", 5004, this);
         }
     }
 
-    private void playDefaultVideo()
-    {
+    /**
+     * 播放视频，只能初始化一次。当需要再次播放默认视频的时候，不在初始化
+     * 只需创建流即可,比如刷新视频列表的时候（添加 或 删除 视频 后。）
+     */
+    private void playDefaultVideo(){
+        if ("yes;".equals(sendRtsp)) {
+            mediaPath = "/sdcard/Movies/nanning.mp4";
+            streamer.creat("/sdcard/Movies/nanning.mp4", "238.0.0.111", 5004, this);
+        }
+    }
+    /**
+     * 初始化 并 播放默认视频
+     */
+    private void creatAndplayDefaultVideo() {
+        Log.w(TAG, "playDefaultVideo 播放默认");
         Log.d(TAG, "gona to play default video!");
         if (null == mMediaPlayer) {
             Log.d(TAG, "Get mMediaPlayer failed!");
@@ -298,20 +367,15 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
             return;
         }
 
-        Log.d(TAG, "URI:"+defVideoUri);
+        Log.d(TAG, "URI:" + defVideoUri);
         //media = new Media(mLibVLC, Uri.parse("file:///sdcard/Movies/nanning.mp4"));
         media = new Media(mLibVLC, Uri.parse(SAMPLE_URL.toString().trim()));
 
         isPlaying = true;
         MediaMetadataRetriever retr = new MediaMetadataRetriever();
-//        retr.setDataSource(videoView.getContext(), Uri.parse(defVideoUri));
-//        curWidth = Integer.valueOf(retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-//        curHeight = Integer.valueOf(retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-//        Log.d(TAG, "default video: width: " + curWidth + " height: " + curHeight);
-//        adjustLayoutParams();
 
         mMediaPlayer.setMedia(media);
-        maxVideoTime = (int)mMediaPlayer.getLength();
+        maxVideoTime = (int) mMediaPlayer.getLength();
         curVideoTime = 0;
         mMediaPlayer.setEventListener(new MediaPlayer.EventListener() {
             @Override
@@ -324,14 +388,15 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
                     //播放结束
                     if (mMediaPlayer.getPlayerState() == Media.State.Ended) {
                         media = new Media(mLibVLC, Uri.parse(SAMPLE_URL.toString().trim()));
-                        maxVideoTime = (int)mMediaPlayer.getLength();
+                        maxVideoTime = (int) mMediaPlayer.getLength();
                         curVideoTime = 0;
                         Log.d(TAG, "gona to play video:" + videoList.get(curVideoIndex).getName());
                         mMediaPlayer.setMedia(media);
                         media.release();
                         mMediaPlayer.play();
-                        if ("yes;".equals(sendRtsp)){
-                            streamer.creat("/sdcard/Movies/nanning.mp4", "238.0.0.111", 5004,VideoController.this);
+                        if ("yes;".equals(sendRtsp)) {
+                            mediaPath = "/sdcard/Movies/nanning.mp4";
+                            streamer.creat("/sdcard/Movies/nanning.mp4", "238.0.0.111", 5004, VideoController.this);
                         }
                     }
                 } catch (Exception e) {
@@ -342,9 +407,9 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
 
         media.release();
         mMediaPlayer.play();
-        if ("yes;".equals(sendRtsp))
-        {
-            streamer.creat("/sdcard/Movies/nanning.mp4", "238.0.0.111", 5004,this);
+        if ("yes;".equals(sendRtsp)) {
+            mediaPath = "/sdcard/Movies/nanning.mp4";
+            streamer.creat("/sdcard/Movies/nanning.mp4", "238.0.0.111", 5004, this);
         }
 
     }
@@ -357,33 +422,27 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener,IPlay{
 
     @Override
     public void playEnd() {
-        Log.d(TAG, "播放完场媒体："+curVideoIndex+" 总共有："+videoCount );
+        Log.w(TAG, "playEnd 播放结束");
+        videoCount = videoList.size();
+        Log.d(TAG, "播放完场媒体：" + curVideoIndex + " 总共有：" + videoCount);
         if (videoCount == 0) {
-            media = new Media(mLibVLC, Uri.parse(SAMPLE_URL.toString().trim()));
-            maxVideoTime = (int)mMediaPlayer.getLength();
-            curVideoTime = 0;
-//            Log.d(TAG, "gona to play video:" + videoList.get(curVideoIndex).getName());
-            mMediaPlayer.setMedia(media);
-            media.release();
-            mMediaPlayer.play();
-            if ("yes;".equals(sendRtsp)){
-                streamer.creat("/sdcard/Movies/nanning.mp4", "238.0.0.111", 5004,this);
+            if ("yes;".equals(sendRtsp)) {
+                mediaPath = "/sdcard/Movies/nanning.mp4";
+                streamer.creat("/sdcard/Movies/nanning.mp4", "238.0.0.111", 5004, this);
             }
-        }else {
+        } else {
             if (curVideoIndex < videoCount - 1) {
                 curVideoIndex++;
             } else {
                 curVideoIndex = 0;
             }
-            media = new Media(mLibVLC, Uri.parse(SAMPLE_URL.toString().trim()));
-            maxVideoTime = (int)mMediaPlayer.getLength();
-            curVideoTime = 0;
-            Log.d(TAG, "gona to play video:" + videoList.get(curVideoIndex).getName());
-            mMediaPlayer.setMedia(media);
-            media.release();
-            mMediaPlayer.play();
-            if ("yes;".equals(sendRtsp)){
-                streamer.creat(videoList.get(curVideoIndex).getAbsolutePath(), "238.0.0.111", 5004,this);
+            try {
+                if ("yes;".equals(sendRtsp)) {
+                    mediaPath = videoList.get(curVideoIndex).getAbsolutePath();
+                    streamer.creat(videoList.get(curVideoIndex).getAbsolutePath(), "238.0.0.111", 5004, this);
+                }
+            } catch (Exception e) {
+
             }
         }
     }

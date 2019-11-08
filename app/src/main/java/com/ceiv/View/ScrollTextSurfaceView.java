@@ -135,10 +135,12 @@ public class ScrollTextSurfaceView extends SurfaceView implements SurfaceHolder.
 //                Log.i(TAG, "textTotalHeight: " + textTotalHeight);
                 //启动绘制线程
                 if (thread == null) {
+                    Log.d(TAG, "run: thread == null");
                     reqCtrlThdQuit = false;
                     thread = new Thread(ScrollTextSurfaceView.this);
                     thread.start();
                 } else {
+                    Log.d(TAG, "run: thread != null");
                     reqCtrlThdQuit = true;
                     thread.interrupt();
                     //延时启动新的控制线程，以确保之前的控制线程退出，防止出现争夺canvas的现象
@@ -218,21 +220,25 @@ public class ScrollTextSurfaceView extends SurfaceView implements SurfaceHolder.
                 //不需要滚动显示
                 Log.i(TAG, "no scroll");
                 try {
-                    canvas = surfaceHolder.lockCanvas(new Rect());
-                    //Log.d(TAG, "lock canvas");
+                    //canvas = surfaceHolder.lockCanvas(new Rect());
+                    canvas = surfaceHolder.lockCanvas();
+                    Log.d(TAG, "lock canvas");
                     if (canvas != null) {
                         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                         float startY = (showAreaHeight - textTotalHeightF) / 2 + drawTextDeviationF;
                         float curY = startY;
                         for (int i = 0; i < textContentList.size(); i++) {
                             canvas.drawText(textContentList.get(i), 0, curY, paint);
+                            Log.d(TAG, "list文本内容: "+textContentList.get(i)+"djkjd:"+curY);
                             curY += singleLineHeightF;
                         }
                     }
                 } catch (Exception e) {
+                    Log.d(TAG, "run: ########################");
+                    e.printStackTrace();
                     if (reqCtrlThdQuit) {
                         reqCtrlThdQuit = false;
-                        Log.d(TAG, "View control thread exit!");
+                        Log.d(TAG, "View control thread exit! eeee");
                     } else {
                         Log.e(TAG, "draw Text(no scroll) error!");
                         e.printStackTrace();

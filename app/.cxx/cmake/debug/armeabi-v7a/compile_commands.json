@@ -1,7 +1,7 @@
 [
 {
-  "directory": "D:/video_vlc/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a",
-  "command": "D:\\studioWork\\Sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi22 --gcc-toolchain=D:/studioWork/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/studioWork/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dstreamer_EXPORTS -ID:/video_vlc/videopost_vlc/app/src/main/cpp/include -ID:/video_vlc/videopost_vlc/app/src/main/cpp/include/vlc  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\streamer.dir\\streamer.cpp.o -c D:\\video_vlc\\videopost_vlc\\app\\src\\main\\cpp\\streamer.cpp",
-  "file": "D:\\video_vlc\\videopost_vlc\\app\\src\\main\\cpp\\streamer.cpp"
+  "directory": "D:/studiowork/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "D:\\studiowork\\Sdk\\ndk\\20.0.5594570\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi22 --gcc-toolchain=D:/studiowork/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/studiowork/Sdk/ndk/20.0.5594570/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dstreamer_EXPORTS -ID:/studiowork/videopost_vlc/app/src/main/cpp/include -ID:/studiowork/videopost_vlc/app/src/main/cpp/include/vlc  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\streamer.dir\\streamer.cpp.o -c D:\\studiowork\\videopost_vlc\\app\\src\\main\\cpp\\streamer.cpp",
+  "file": "D:\\studiowork\\videopost_vlc\\app\\src\\main\\cpp\\streamer.cpp"
 }
 ]

@@ -14,8 +14,7 @@ Java_com_ceiv_streamer_Streamer_creatStream(
         JNIEnv *env,
         jobject thiz,
         jstring mediaPath,
-        jstring soutArg,
-        jint time) {
+        jstring soutArg) {
 
     const char *url = (env)->GetStringUTFChars(mediaPath, nullptr);
     const char *sout = (env)->GetStringUTFChars(soutArg, nullptr);
@@ -27,11 +26,10 @@ Java_com_ceiv_streamer_Streamer_creatStream(
     libvlc_vlm_add_broadcast(vlc, media_name, url, sout, 0, nullptr, true, false);
     libvlc_vlm_play_media(vlc, media_name);
 
-//    is_playing = false;
-//    while(is_playing) {
-//        usleep(10000000);
-//    };
-    sleep(time);
+    is_playing = true;
+    while(is_playing) {
+        usleep(500000);
+    };
     libvlc_vlm_stop_media(vlc, media_name);
     libvlc_vlm_release(vlc);
     return 0;

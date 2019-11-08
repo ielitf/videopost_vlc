@@ -5,7 +5,7 @@ import android.app.Application;
 import com.ceiv.communication.utils.CopyFileFromAssets;
 import com.ceiv.log4j.Log;
 import com.ceiv.videopost.CrashHandler;
-import com.ceiv.videopost.SpUtils;
+import com.ceiv.videopost.utils.SpUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;

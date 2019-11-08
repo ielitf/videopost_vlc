@@ -66,7 +66,6 @@ public class ButtomFragment  extends Fragment {
         }
         displayTextInit();
         show();
-
         return view;
     }
 
@@ -122,9 +121,10 @@ public class ButtomFragment  extends Fragment {
             try {
                 scrollTextSurfaceView.displayParametersInit(textContent, textSize, textColor,
                         SystemInfoUtils.getTypeface(getContext(), SystemInfoUtils.fontToName.get(textFont)), scrollSpeed);
+                Log.e(TAG, "textContent"+textContent);
                 scrollTextSurfaceView.show();
             } catch (Exception e) {
-                Log.e(TAG, "show scrollTextSurfaceView error!", e);
+                Log.e(TAG, "Init scrollTextSurfaceView error!", e);
                 //e.printStackTrace();
             }
         }
@@ -136,14 +136,14 @@ public class ButtomFragment  extends Fragment {
     }
 
     public void updateDisplayParameters() {
-        if (DeviceInfoUtils.DeviceInfoUtilsInit(getContext())) {
-            DeviceInfo deviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
-            if (deviceInfo != null) {
-                displayParametersInit(deviceInfo.getTextSize(), deviceInfo.getTextColor(),
-                        deviceInfo.getTextFont(), deviceInfo.getTextSpeed());
-            }
-        }
-        show();
+//        if (DeviceInfoUtils.DeviceInfoUtilsInit(getContext())) {
+//            DeviceInfo deviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
+//            if (deviceInfo != null) {
+//                displayParametersInit(deviceInfo.getTextSize(), deviceInfo.getTextColor(),
+//                        deviceInfo.getTextFont(), deviceInfo.getTextSpeed());
+//            }
+//        }
+//        show();
     }
 
     private void updateTextSize(int size) {

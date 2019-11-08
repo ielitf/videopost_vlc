@@ -72,7 +72,7 @@ public class ViceDisplay extends FragmentActivity {
 
 
     //视频播放控制器
-    private VideoController videoController = null;
+//    private VideoController videoController = null;
     //温度信息
     private TextView tempView = null;
     //温度默认值
@@ -619,10 +619,10 @@ public class ViceDisplay extends FragmentActivity {
 
 			//开始播放视频
 			try {
-				videoController = new VideoController(context,mVideoSurface,
-						"android.resource://" + context.getPackageName() + "/" + R.raw.nanning,
-						Environment.getExternalStorageDirectory() + "/media/video");
-				videoController.startVideo();
+//				videoController = new VideoController(context,mVideoSurface,
+//						"android.resource://" + context.getPackageName() + "/" + R.raw.nanning,
+//						Environment.getExternalStorageDirectory() + "/media/video");
+//				videoController.startVideo();
 			} catch (Exception e) {
 				Log.d(TAG, "play video error!", e);
 				//e.printStackTrace();
@@ -727,18 +727,18 @@ public class ViceDisplay extends FragmentActivity {
 
 	//刷新视频播放列表
 	public void refreshVideoList() {
-		if (videoController != null) {
-		    Log.d(TAG, "refresh ViceDisplay videolist");
-			videoController.refreshVideoList();
-		}
+//		if (videoController != null) {
+//		    Log.d(TAG, "refresh ViceDisplay videolist");
+////			videoController.refreshVideoList();
+//		}
 	}
 
 	//停止播放现在的视频
 	public void stopVideo(boolean playDefVi) {
-		if (videoController != null) {
-		    Log.d(TAG, "stop ViceDisplay videolist");
-			videoController.stopVideo(playDefVi);
-		}
+//		if (videoController != null) {
+//		    Log.d(TAG, "stop ViceDisplay videolist");
+////			videoController.stopVideo(playDefVi);
+//		}
 	}
 
 	//设置界面的下一站信息

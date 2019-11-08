@@ -68,14 +68,14 @@ public class ApplicationMonitorService extends Service {
                             Log.e(TAG, "Now, TopActivity: " + cpn.getClassName() + ", gona to restart Apk!");
                             Intent intent = new Intent(ApplicationMonitorService.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            startActivity(intent);
+                            startActivity(intent);
                         }
                     } else {
                         Log.e(TAG, "Get Activity Info failed");
                     }
                     //10s检查一次apk是否正常运行
                     try {
-                        Thread.sleep(10 * 1000);
+                        Thread.sleep(60 * 1000);
                     } catch (Exception e) {
                         Log.e(TAG, "Thread sleep error!", e);
                     }
