@@ -451,10 +451,10 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                             if (null != buttomFragment) {
                                 buttomFragment.updateDisplayContent();
                             }
-                            if (mViceDisplay != null) {
-                                mViceDisplay.updateTips();
-                                mViceDisplay.refreshVideoList();
-                            }
+//                            if (mViceDisplay != null) {
+//                                mViceDisplay.updateTips();
+//                                mViceDisplay.refreshVideoList();
+//                            }
                             break;
                         case ProtocolMessageProcess.MsgArg1MediaRemoveByName:
                             /*

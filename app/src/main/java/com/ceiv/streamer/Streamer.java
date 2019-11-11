@@ -12,7 +12,7 @@ import java.util.TimerTask;
 
 
 public class Streamer {
-    private static  Boolean needPlayEnd = true;
+    private static Boolean isneedPlayEnd = true;
     static {
         System.loadLibrary("streamer");
     }
@@ -55,23 +55,16 @@ public class Streamer {
         final String sout = "#transcode{scodec=none}:rtp{dst=" + ip + "," + String.valueOf(port) + ",mux=ts,sap,name=ceiv}";
         duration = getLongTime(mediaPath) / 1000;
         if (duration < 5) duration = 5;
-        Log.d("streamer", "run:开始播放： " + mediaPath + " 时间：" + duration);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.i("streamer", "creatStream " + mediaPath);
+                    Thread.sleep(2000);//延迟是为了在creatStream之前，将上一个stream彻底结束掉，经测试1秒有时候太短
+                    Log.i("streamer", "run:开始播放：creatStream :" + mediaPath + " 时间：" + duration);
                     creatStream(mediaPath, sout);
+                    Log.d("streamer", "run:播放结束:");
                 } catch (Exception e) {
                 }
-
-                Log.d("streamer", "run:播放完成： 是否调用playEnd()？" +needPlayEnd +"/文件路径:"+ mediaPath);
-                if(needPlayEnd){
-                    iPlay.playEnd();
-                }else{
-
-                }
-
             }
         }).start();
 
@@ -84,18 +77,21 @@ public class Streamer {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Log.i("streamer", "stopStream " + mediaPath);
-                needPlayEnd = true;
-//                if(needPlayEnd){
+                Log.d("streamer", "stopStream " + mediaPath);
                 stopStream();
-//                }
+                Log.i("streamer", "调用playEnd()？" +isneedPlayEnd +"/文件路径:"+ mediaPath);
+                if(isneedPlayEnd){
+                    iPlay.playEnd();
+                }else{
+                    isneedPlayEnd = true;
+                }
             }
-        }, duration * 1000+ 3000);
+        }, duration * 1000,1000);
         return 0;
     }
 
     public int stop(Boolean needPlayEnd) {
-        this.needPlayEnd = needPlayEnd;
+        isneedPlayEnd = needPlayEnd;
         return stopStream();
     }
 

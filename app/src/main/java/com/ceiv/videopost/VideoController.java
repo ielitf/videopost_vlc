@@ -170,7 +170,7 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener, IPlay
     public void stopVideo(boolean playDefRes) {
 
         //
-        Log.w(TAG, "停止播放");
+//        Log.w(TAG, "停止播放");
 //        videoList.clear();
 //        streamer.stop();
 //        if (surfaceView != null && mMediaPlayer != null && streamer !=null) {
@@ -299,7 +299,7 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener, IPlay
                 " width: " + curWidth + " height: " + curHeight + " URI:" + Uri.parse("file://" + videoList.get(curVideoIndex).getAbsolutePath()));
         adjustLayoutParams();
 
-        //设置播放结束监听器
+        /*//设置播放结束监听器
         mMediaPlayer.setEventListener(new MediaPlayer.EventListener() {
             @Override
             public void onEvent(MediaPlayer.Event event) {
@@ -331,7 +331,7 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener, IPlay
                     Log.d("vlc-event", e.toString());
                 }
             }
-        });
+        });*/
         Log.d(TAG, "gona to play video:" + videoList.get(curVideoIndex).getName());
         media.release();
         mMediaPlayer.play();
@@ -377,7 +377,7 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener, IPlay
         mMediaPlayer.setMedia(media);
         maxVideoTime = (int) mMediaPlayer.getLength();
         curVideoTime = 0;
-        mMediaPlayer.setEventListener(new MediaPlayer.EventListener() {
+        /*mMediaPlayer.setEventListener(new MediaPlayer.EventListener() {
             @Override
             public void onEvent(MediaPlayer.Event event) {
                 try {
@@ -403,7 +403,7 @@ public class VideoController implements IVLCVout.OnNewVideoLayoutListener, IPlay
                     Log.d("vlc-event", e.toString());
                 }
             }
-        });
+        });*/
 
         media.release();
         mMediaPlayer.play();
