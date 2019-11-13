@@ -297,4 +297,25 @@ public class DeviceInfo {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "DeviceInfo{" +
+                "identify='" + identify + '\'' +
+                ", serverIp='" + serverIp + '\'' +
+                ", serverPort=" + serverPort +
+                ", infoPublishServer='" + infoPublishServer + '\'' +
+                ", devType=" + devType +
+                ", currentStationId=" + currentStationId +
+                ", nextStationId=" + nextStationId +
+                ", themeStyle=" + themeStyle +
+                ", textType=" + textType +
+                ", textColor=" + textColor +
+                ", textSize=" + textSize +
+                ", textFont='" + textFont + '\'' +
+                ", textSpeed=" + textSpeed +
+                ", picDispTime=" + picDispTime +
+                ", videoPlayTime=" + videoPlayTime +
+                ", flag=" + flag +
+                '}';
+    }
 }

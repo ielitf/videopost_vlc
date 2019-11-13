@@ -589,7 +589,9 @@ public class DeviceInfoUtils {
                         if (!contentNameToIndex.containsKey(xmlPullParser.getName())) {
                             break;
                         }
-                        switch (contentNameToIndex.get(xmlPullParser.getName())) {
+                        int index = contentNameToIndex.get(xmlPullParser.getName());
+                        Log.i(TAG, "contentNameToIndex:" + index);
+                        switch (index) {
                             case 1:
                                 String identify = xmlPullParser.nextText();
                                 Log.d(TAG, "Identify:" + identify);

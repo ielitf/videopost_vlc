@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AppConfig>
     <Identify>0123456789ab00303201</Identify> <!-- 003线路ID， 03代表2站， 2代表下行， 01屏号 -->
-    <ServerIp>172.16.30.254</ServerIp>
+    <ServerIp>aids.zdhs.com.cn</ServerIp>
     <ServerPort>8899</ServerPort>
-    <InfoPubliAshServer>tcp://192.168.1.11:1883</InfoPubliAshServer>
+    <InfoPublishServer>tcp://aids.zdhs.com.cn:1883</InfoPublishServer>
     <DevType>11</DevType> <!-- 11:videoPost 12:signPost 13:linePost 十六进制 -->
     <CurrentStationID>2</CurrentStationID>
     <NextStationID>2</NextStationID>

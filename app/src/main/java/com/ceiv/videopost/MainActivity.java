@@ -600,7 +600,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
         totalRunningTime = SpUtils.getLong(CodeConstants.TOTAL_RUNNING_TIME,0);
         Log.d(TestTag, "系统已运行时间:"+ totalRunningTime/(1000*60)+"分钟" );
         curTimes = System.currentTimeMillis();
-        long futherTimes = DataTimeUtils.getInstance().transDataToTime("2019/11/25 00:00:00");
+        long futherTimes = DataTimeUtils.getInstance().transDataToTime("2019/11/30 00:00:00");
         if(curTimes >= futherTimes){
             finish();
         }
@@ -612,7 +612,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                 totalRunningTime = totalRunningTime + runningTime;
                 SpUtils.putLong(CodeConstants.TOTAL_RUNNING_TIME,totalRunningTime);
                 Log.d(TestTag, "系统已运行时间:"+ totalRunningTime/(1000*60)+"分钟" );
-                if(totalRunningTime >= (1000*60*60*24*7)){
+                if(totalRunningTime >= (1000*60*60*24*9)){
                     finish();
                 }
             }
@@ -709,6 +709,8 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                 Log.i(TAG, response.code() + responseStr);
                 if (response.code() == 200) {
                     Log.i(TAG, "searchBasicInfo请求成功");
+                    Toast.makeText(MainActivity.this,"公交站信息获取成功",Toast.LENGTH_SHORT).show();
+
                     basicInfoStr = responseStr;
                     SearchBasicInfo searchBasicInfo = JSON.parseObject(basicInfoStr, SearchBasicInfo.class);
                     Log.i(TAG, "searchBasicInfo:" + searchBasicInfo.toString());
@@ -720,6 +722,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
             public void onError(Response<String> response) {
                 super.onError(response);
                 Log.i(TAG, "searchBasicInfo请求失败");
+                Toast.makeText(MainActivity.this,"公交站信息获取失败",Toast.LENGTH_SHORT).show();
                 basicInfoStr = SpUtils.getString(CodeConstants.SEARCH_BASIC_INFO);
                 if (!basicInfoStr.equals("")) {
                     SearchBasicInfo searchBasicInfo = JSON.parseObject(basicInfoStr, SearchBasicInfo.class);

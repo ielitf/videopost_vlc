@@ -47,11 +47,11 @@ public class MulticastThread extends Thread {
         byte[] msg_body = null;
         int msg_length;
         int msg_ver;
-        int msg_type;
+            int msg_type;
 
-        Log.d(TAG, "MulticastThread running ... ");
+            Log.d(TAG, "MulticastThread running ... ");
 
-        try {
+            try {
             multicastRecv = new MulticastRecv(multicastIp, multicastPort);
         } catch (Exception e) {
             Log.e(TAG, "Create MulticastRecv error!");

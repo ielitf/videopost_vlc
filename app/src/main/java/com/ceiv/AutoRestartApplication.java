@@ -46,7 +46,7 @@ public class AutoRestartApplication extends Application implements Thread.Uncaug
                 .setOkHttpClient(builder.build())
                 .setCacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)
-                .setRetryCount(3);
+                .setRetryCount(1);
         /*
          *   由于在程序运行过程中可能会发现未知的异常，导致程序崩溃退出
          *   使得用户体验不好，所以在这里设置全局的未捕获异常处理器，

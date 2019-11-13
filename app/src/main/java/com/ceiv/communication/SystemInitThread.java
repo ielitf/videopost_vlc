@@ -201,6 +201,15 @@ public class SystemInitThread implements Runnable, NetworkMonitorThread.ConnectS
         return new TimerTask() {
             @Override
             public void run() {
+                String serverIpStr []  = deviceInfo.getServerIp().split(":");
+                Log.i(TAG, "===getServerIp:"+deviceInfo.getServerIp() );
+                if(serverIpStr !=null){
+                    Log.i(TAG, "===serverIpStr:" + serverIpStr[0]);
+                }
+                else{
+                    Log.i(TAG, "===serverIpStr:"+serverIpStr );
+                    return;
+                }
 
                 //检查设备的以太网口网线是否连接
                 if (!SystemInfoUtils.isEthernetConnected(mContext)) {
@@ -278,13 +287,13 @@ public class SystemInitThread implements Runnable, NetworkMonitorThread.ConnectS
                 }
 
                 //检查和服务器的连接性
-                if (!SystemInfoUtils.testConnectivityWithAddress(deviceInfo.getServerIp())) {
+                if (!SystemInfoUtils.testConnectivityWithAddress(serverIpStr[0])) {
 //                if (!SystemInfoUtils.testConnectivityWithAddress("172.16.30.254")) {
-                    com.ceiv.log4j.Log.e(TAG, "Can't connect to server: " + deviceInfo.getServerIp());
+                    com.ceiv.log4j.Log.e(TAG, "Can't connect to server: " + serverIpStr[0]);
                     if (NetworkProblemUtils.getRebootTimes() >= NetworkProblemUtils.RebootMaxTimes2) {
                         //重启次数达到最大数，后面不再尝试重启，而是在屏幕界面显示当前的状态
                         com.ceiv.log4j.Log.e(TAG, "NetworkProblem<Can't connect to server: "+
-                                deviceInfo.getServerIp() + ">: RebootTimes -> MaxTimes");
+                                serverIpStr[0] + ">: RebootTimes -> MaxTimes");
                         Log.e(TAG, "服务器连接异常");
                         Message msg = Message.obtain();
                         Bundle data = new Bundle();
@@ -307,7 +316,7 @@ public class SystemInitThread implements Runnable, NetworkMonitorThread.ConnectS
                             netMonitor = null;
                         }
                         try {
-                            netMonitor = new NetworkMonitorThread(deviceInfo.getServerIp(),
+                            netMonitor = new NetworkMonitorThread(serverIpStr[0],
                                     SystemInitThread.this);
                             netMonitor.start();
                         }catch (Exception e) {

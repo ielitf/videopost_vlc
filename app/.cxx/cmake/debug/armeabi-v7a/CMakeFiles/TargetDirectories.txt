@@ -1,3 +1,3 @@
-D:/studiowork/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/streamer.dir
-D:/studiowork/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/edit_cache.dir
-D:/studiowork/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+D:/studioWork/workspace/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/streamer.dir
+D:/studioWork/workspace/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/studioWork/workspace/videopost_vlc/app/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/rebuild_cache.dir

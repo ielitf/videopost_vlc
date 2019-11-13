@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Binder;
 import android.os.IBinder;
+import android.widget.Toast;
 //import android.util.Log;
 import com.ceiv.communication.utils.DeviceInfo;
 import com.ceiv.communication.utils.DeviceInfoUtils;
@@ -60,10 +61,10 @@ public  class MsgService extends Service {
     public static final String TopicArrLev = "TopicArrLev";
     public static final String TopicGPS = "TopicGPS";
     public static final String TopicBrt = "com/ceiv/busmsg/zzbrt";
-//        private String userName = "admin"; // 连接的用户名
-//    private String passWord = "pi@1415"; //连接的密码
-    private String userName = "zzx"; // 连接的用户名
-    private String passWord = "zzx"; //连接的密码
+        private String userName = "admin"; // 连接的用户名
+    private String passWord = "pi@1415"; //连接的密码
+//    private String userName = "zzx"; // 连接的用户名
+//    private String passWord = "zzx"; //连接的密码
 
 //    public static final String BROKER_URL = "tcp://192.168.43.45:1883";
 //    public static final String clientId = "android-client";
@@ -131,9 +132,13 @@ public  class MsgService extends Service {
         clientId = SystemInfoUtils.getMqttClientId()+"111";
         routeId = SpUtils.getString(CodeConstants.ROUTE_ID);
         DeviceInfo deviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
-        String serverIp = deviceInfo.getServerIp();
-        Log.d(TAG, "serverIp: " + serverIp);
-        BROKER_URL = "tcp://"+ serverIp + ":1883";
+        Log.d(TAG, "deviceInfo: " + deviceInfo.toString());
+
+//        String serverIp = deviceInfo.getServerIp();
+//        Log.d(TAG, "serverIp: " + serverIp);
+//        BROKER_URL = "tcp://"+ serverIp + ":1883";
+        BROKER_URL = deviceInfo.getInfoPublishServer();
+
         Log.d(TAG, "BROKER_URL: " + BROKER_URL +"/Mqtt Client ID: " + clientId);
         init();           //初始化相关配置
         startConnect();        //连接mqtt服务器
@@ -307,6 +312,7 @@ public  class MsgService extends Service {
         @Override
         public void onSuccess(IMqttToken iMqttToken) {
             Log.i(TAG, "Mqtt connect success!");
+            Toast.makeText(MsgService.this,"Mqtt connect success",Toast.LENGTH_SHORT).show();
             try {
                 Log.d(TAG, "Try to Subscribe Topic...");
                 mqttClient.subscribe(TopicBrt, 1, null, subscribeListener);
@@ -319,6 +325,7 @@ public  class MsgService extends Service {
         @Override
         public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
             Log.d(TAG, "Mqtt connect failed: \n" + throwable);
+            Toast.makeText(MsgService.this,"Mqtt connect failed",Toast.LENGTH_SHORT).show();
             //连接失败，5s后重新尝试连接
             new Timer().schedule(new TimerTask() {
                 @Override
