@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AppConfig>
     <Identify>%s</Identify> <!-- 002线路ID， 007站点双程号， 01屏号 -->
+    <RouteLine>%s</RouteLine> <!-- 公交线路ID -->
+    <StationID>%s</StationID> <!-- 当前公交站点ID -->
     <ServerIp>%s</ServerIp>
+    <ServerPort2>%s</ServerPort2>
     <ServerPort>%s</ServerPort>
     <InfoPublishServer>%s</InfoPublishServer>
     <DevType>%x</DevType> <!-- 11:videoPost 12:signPost 13:linePost 十六进制 -->

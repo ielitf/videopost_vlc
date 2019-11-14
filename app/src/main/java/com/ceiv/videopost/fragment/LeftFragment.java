@@ -58,7 +58,9 @@ public class LeftFragment extends Fragment {
     private HashMap<String, Long> leftBusMap = null;
 
     //本次车信息View
-    private TextView Lto_station;
+    private TextView Lto_station,distance_time;
+    //到达本站的时间
+    private String Lto_distance_time;
     //本次车信息内容
     private String Lto_content;
     //本次车信息颜色
@@ -75,14 +77,14 @@ public class LeftFragment extends Fragment {
     private int Lnextto_size;
 
     private final static String UnknownInfo = "暂无车辆";
-
+    private final static String UnknownInfo_time = "（ 时间未知 ）";
 //    //车辆信息TextView正常大小
 //    private final int NormalSize = 45;
 //    //车辆信息TextView显示内容较多时的大小
 //    private final int SmallSize = 35;
 
     //车辆信息TextView正常大小
-    private final int NormalSize = 120;
+    private final int NormalSize = 100;
     //车辆信息TextView显示内容较多时的大小
     private final int SmallSize = 90;
 
@@ -124,6 +126,7 @@ public class LeftFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MsgSetBrtInfo:
+                    distance_time.setText(msg.getData().getString("time"));
                     Lto_station.setText(msg.getData().getString("tt"));
                     Lto_station.setTextColor(msg.getData().getInt("tc"));
                     Lto_station.setTextSize(TypedValue.COMPLEX_UNIT_PX, msg.getData().getInt("ts"));
@@ -223,6 +226,7 @@ public class LeftFragment extends Fragment {
                 );
 
         Lto_station = view.findViewById(R.id.Lto_station);
+        distance_time = view.findViewById(R.id.distance_time);
         /*
         String tmpName = customStationsList.get(curStaIndex + 1).getStationName();
         String tmpEName = customStationsList.get(curStaIndex + 1).getStationEName();
@@ -347,8 +351,7 @@ public class LeftFragment extends Fragment {
         }
         //$是特殊符号，必须用[$]来分割
         String[] data = brtInfo.split("[" + MsgService.MsgSeparator + "]");
-//        if (data.length != 5 || !(data[1].equals(MsgService.routeId))) {
-        if (data.length != 7 || !(data[1].equals(MsgService.routeId))) {
+        if (data.length != 8 || !(data[1].equals(MsgService.routeId))) {
             Log.e(TAG, "Invalid BrtInfo Data!");
             Log.e(TAG, "data len: " + data.length);
             for (String tmp : data) {
@@ -361,6 +364,8 @@ public class LeftFragment extends Fragment {
         synchronized (BusInfoLock) {
             if (data[0].equals(MsgService.MsgTypeArrLeft)) {
                 //到离站数据
+                int time  = Integer.parseInt(data[7])/60;
+                Lto_distance_time = "（ " + time + "分钟 ）";
                 String ProductID = data[2];//车的ID
                 int dualSerial = Integer.valueOf(data[3]);//车站ID
                 int IsArrLeft = Integer.valueOf(data[4]);
@@ -579,6 +584,7 @@ public class LeftFragment extends Fragment {
         Log.i("BrtTest", "brtList.size():"+size+"/brtList:"+brtList.toString());
         if (size == 0) {
             //当前还没有BRT车辆信息暂无车辆字体为小
+            Lto_distance_time = UnknownInfo_time;
             Lto_content = UnknownInfo;
             Lto_color = Color.WHITE;
             Lto_size = SmallSize;
@@ -669,6 +675,7 @@ public class LeftFragment extends Fragment {
             bundle.putString("ntt", Lnextto_content);
             bundle.putInt("ntc", Lnextto_color);
             bundle.putInt("nts", Lnextto_size);
+            bundle.putString("time", Lto_distance_time);
             msg.setData(bundle);
             handler.sendMessage(msg);
         }

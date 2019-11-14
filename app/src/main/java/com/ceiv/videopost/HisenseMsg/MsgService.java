@@ -54,14 +54,14 @@ public  class MsgService extends Service {
     //海信服务器地址
 //    public static final String BROKER_URL = "tcp://172.16.10.37:1883";
     public static  String BROKER_URL = "";//见初始化
-//    public static  String BROKER_URL = "tcp://aids.zdhs.com.cn:1883";
+    //    public static  String BROKER_URL = "tcp://aids.zdhs.com.cn:1883";
 //    public static final String BROKER_URL = "tcp://172.16.30.254:1883";
     //    public static final String clientId = "ceiv-client";
     public String clientId;
     public static final String TopicArrLev = "TopicArrLev";
     public static final String TopicGPS = "TopicGPS";
     public static final String TopicBrt = "com/ceiv/busmsg/zzbrt";
-        private String userName = "admin"; // 连接的用户名
+    private String userName = "admin"; // 连接的用户名
     private String passWord = "pi@1415"; //连接的密码
 //    private String userName = "zzx"; // 连接的用户名
 //    private String passWord = "zzx"; //连接的密码
@@ -198,7 +198,8 @@ public  class MsgService extends Service {
                     //到离站信息
                     Log.d(TAG,"MQTT 收到消息："+type);
                     if (type == 0x03) {
-                        ProtoBufMsgGpsArrleaNn.BusArrLeftMsg busArrLeftMsg = ProtoBufMsgGpsArrleaNn.BusArrLeftMsg.parseFrom(msgbyte_body);
+//                        ProtoBufMsgGpsArrleaNn.BusArrLeftMsg busArrLeftMsg = ProtoBufMsgGpsArrleaNn.BusArrLeftMsg.parseFrom(msgbyte_body);
+                        BusMsg.BusArrLeftMsg busArrLeftMsg = BusMsg.BusArrLeftMsg.parseFrom(msgbyte_body);
                         //将数据添加到list
                         Log.d(TAG,"本机路线:"+routeId+"/收到消息的路线："+ busArrLeftMsg.getRouteID());
                         if(busArrLeftMsg.getRouteID().equals(routeId)) {
@@ -208,21 +209,22 @@ public  class MsgService extends Service {
                             Log.d(ArrLeftDataTag, "车辆：" + busArrLeftMsg.getProductID() +
                                     " 双程号：" + busArrLeftMsg.getDualSerialid() + " 补发标志：" + busArrLeftMsg.getIsReissue() +
                                     " 上报时间：" + busArrLeftMsg.getMsgTime() + " 车次类型：" + busArrLeftMsg.getSequenceType() +
-                                    ((isArrLeft == 1) ? " 到了 " : (isArrLeft == 2) ? " 离开 " : " 未知 "));
+                                    ((isArrLeft == 1) ? " 到了 " : (isArrLeft == 2) ? " 离开 " : " 未知 ")+"  到站时间："+busArrLeftMsg.getArrivalTime());
                             //40s之前的数据忽略
                             //                          Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(busArrLeftMsg.getMsgTime());
 //                            if (Math.abs(System.currentTimeMillis() - date.getTime()) > 40 * 1000) {
 //                                Log.d(ArrLeftDataTag, "Data Timeout, discard");
 //                                return;
 //                            } else
-//                           {
+//                           {com.ceiv.videopost.HisenseMsg
                             ArrLeftData = MsgTypeArrLeft +
                                     MsgSeparator + busArrLeftMsg.getRouteID() +
                                     MsgSeparator + busArrLeftMsg.getProductID() +
                                     MsgSeparator + busArrLeftMsg.getDualSerialid() +
                                     MsgSeparator + busArrLeftMsg.getIsArrLeft() +
                                     MsgSeparator + busArrLeftMsg.getIsReissue() +
-                                    MsgSeparator + busArrLeftMsg.getSequenceType();
+                                    MsgSeparator + busArrLeftMsg.getSequenceType()+
+                                    MsgSeparator + busArrLeftMsg.getArrivalTime();
                             Log.d(TAG,"MQTT ArrLeftData："+ArrLeftData);
                             if (!ArrLeftData.equals(ArrLeftDataOld)) {
                                 if (null != onMqttListener) {

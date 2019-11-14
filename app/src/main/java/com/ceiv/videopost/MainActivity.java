@@ -166,7 +166,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
      *  是这种情况；
      *
      */
-    private int stationID = -1;
+    private String stationID;
     //屏幕显示的主题，和主副屏安装的位置、上面所述的两种情况有关系
     private int themeStyle = -1;
     //包含上下行线路的所有站点信息
@@ -350,11 +350,12 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                 case MsgInitDevInfo://初始化设备信息（开机）
                     Log.d(TAG, "Receive msg: MsgInitDevInfo");
                     deviceInfo = (DeviceInfo) msg.obj;
-                    routeOfDevice = DeviceInfoUtils.getDeviceRouteFromIdentify(deviceInfo.getIdentify());
+                    routeOfDevice = deviceInfo.getRouteLine();
                     //将配置文件中的线路存储
                     SpUtils.putString(CodeConstants.ROUTE_ID, routeOfDevice);
                     //当前该显示屏所在的站点位置
-                    stationID = DeviceInfoUtils.getStationIDFromIdentify(deviceInfo.getIdentify());
+                    stationID = deviceInfo.getStationID();
+                    SpUtils.putString(CodeConstants.STATION_ID, stationID);
                     Log.d(TAG, "站点ID：stationID: " + stationID + "/当前线路：routeOfDevice：" + routeOfDevice);
                     //当前该显示屏的显示样式
                     themeStyle = deviceInfo.getThemeStyle();
@@ -696,12 +697,12 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
     private void checkStationData() {
         myDeviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
         String serverIp = myDeviceInfo.getServerIp();
-        Log.i(TAG, "serverIp:" + serverIp );
+        int ServerPort2 = myDeviceInfo.getServerPort2();
+        Log.i(TAG, "serverIp:" + serverIp + "/ ServerPort2"+ ServerPort2);
         Log.i(TAG, "开机：检查更新路线");
-//        String url = "http://aids.zdhs.com.cn:8082/message/searchBasicInfo";
-        String url = "http://"+ serverIp +":8082/message/searchBasicInfo";
+//        String url = "http://"+ serverIp + ":8082/message/searchBasicInfo";
+        String url = "http://"+ serverIp + ":" + ServerPort2 + "/message/searchBasicInfo";
         Log.i(TAG, "url:" + url );
-//        String url = "http://172.16.30.254:8082/message/searchBasicInfo";
         OkGo.<String>get(url).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
@@ -736,32 +737,30 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 
     /**
      * 开机获取，或者从数据库中拿到公交站信息后，解析
-     * 注意：此时配置文件中的线路编号如果发生改变，此时就和本地SP存储的数据
-     * 就不对应了，这时候，返回 null
+     * 注意：此时配置文件中的线路编号如果发生改变，此时就和本地SP存储的公交站信息
+     * 就不对应了，这时候，返回 null。其实就是：当接收到非本线路的公交信息时，不作处理。
      */
     private List<Stations> initStation(SearchBasicInfo searchBasicInfo, String basicInfoStr) {
-        String curDevPos = DeviceInfoUtils.getDevicePositionFromIdentify(DeviceInfoUtils.getDeviceInfoFromFile().getIdentify());
-        int curDevPosInt = Integer.parseInt(curDevPos);
-        String curDevPosStr = curDevPosInt +"";
+        String curDevPos = SpUtils.getString(CodeConstants.STATION_ID);
         Log.i(TAG, "searchBasicInfo：开始解析数据");
-        Log.i(TAG, "当前站ID：" + curDevPosStr);
+        Log.i(TAG, "当前站ID：" + curDevPos);
         routeIdFromSp = SpUtils.getString(CodeConstants.ROUTE_ID);
         stationInfoList = searchBasicInfo.getStationInfo();
         for (int i = 0; i < stationInfoList.size(); i++) {
             if (stationInfoList.get(i).getDirection().equals("up")) {
                 stationUpList = stationInfoList.get(i).getStations();//上行站点集合
                 for (int j = 0; j < stationUpList.size(); j++) {
-                    if (curDevPosStr .equals( stationUpList.get(j).getId())) {
+                    if (curDevPos .equals( stationUpList.get(j).getId())) {
                         List<Stations> stationList = stationInfoList.get(i).getStations();
                         position_stationInfo = i;
                         position_station = j;
                         direction = stationInfoList.get(i).getDirection();
                         routeId = stationInfoList.get(i).getRouteId();
                         Log.i(TAG, "position_station:" + position_station);
-                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPosStr);
+                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPos);
                         if (routeIdFromSp.equals(routeId)) {//如果配置文件中(和SP中一致)的线路编号和收到的线路一致，储存更新数据库
                             SpUtils.putString(CodeConstants.SEARCH_BASIC_INFO, basicInfoStr);
-                            SpUtils.putString(CodeConstants.ROUTE_ID, routeId);
+//                            SpUtils.putString(CodeConstants.ROUTE_ID, routeId);
                             findCurStation = true;
                             return stationList;
                         } else {
@@ -774,18 +773,18 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
             } else if (stationInfoList.get(i).getDirection().equals("down")) {
                 stationDownList = stationInfoList.get(i).getStations();//下行站点集合
                 for (int k = 0; k < stationDownList.size(); k++) {
-                    if (curDevPosStr .equals(stationDownList.get(k).getId()) ) {
+                    if (curDevPos .equals(stationDownList.get(k).getId()) ) {
                         List<Stations> stationList = stationInfoList.get(i).getStations();
                         position_stationInfo = i;
                         position_station = k;
                         direction = stationInfoList.get(i).getDirection();
                         routeId = stationInfoList.get(i).getRouteId();
                         Log.i(TAG, "position_station:" + position_station);
-                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPosStr);
+                        Log.i(TAG, "线路：" + routeId + "/方向：" + direction + "/当前站id:" + curDevPos);
 
                         if (routeOfDevice.equals(routeId)) {//如果配置文件中(和SP中一致)的线路编号和收到的线路一致，储存更新数据库
                             SpUtils.putString(CodeConstants.SEARCH_BASIC_INFO, basicInfoStr);
-                            SpUtils.putString(CodeConstants.ROUTE_ID, routeId);
+//                            SpUtils.putString(CodeConstants.ROUTE_ID, routeId);
                             findCurStation = true;
                             return stationList;
                         } else {
@@ -834,7 +833,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
             }
         } else {
             Log.i(TAG, "stationList：" + stationList);
-            Log.i(TAG, "线路信息发生变化，或没有找到当前站：");
+            Log.i(TAG, "线路不匹配，或没有找到当前站：");
         }
     }
 
@@ -860,6 +859,9 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
      */
     private void InitRouteInfo() {
         Log.d(TAG, "启动app，开始初始化");
+        if (topFragment != null) {
+            topFragment.setCurLine(routeOfDevice);
+        }
         String basicInfoStr = SpUtils.getString(CodeConstants.SEARCH_BASIC_INFO);
         if (basicInfoStr.equals("")) {
             //第一次运行app时候，SP里面数据为空，但若此时网络网络获取数据成功或，则会加载相应数据，

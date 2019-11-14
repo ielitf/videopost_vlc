@@ -54,20 +54,23 @@ public class DeviceInfoUtils {
         rwLock = new Object();
         contentNameToIndex = new HashMap<String, Integer>();
         contentNameToIndex.put("Identify", 1);
+        contentNameToIndex.put("RouteLine", 17);
+        contentNameToIndex.put("StationID", 18);
         contentNameToIndex.put("ServerIp", 2);
-        contentNameToIndex.put("ServerPort", 3);
-        contentNameToIndex.put("InfoPublishServer", 4);
-        contentNameToIndex.put("DevType", 5);
-        contentNameToIndex.put("CurrentStationID", 6);
-        contentNameToIndex.put("NextStationID", 7);
-        contentNameToIndex.put("ThemeStyle", 8);
-        contentNameToIndex.put("TextType", 9);
-        contentNameToIndex.put("TextColor", 10);
-        contentNameToIndex.put("TextSize", 11);
-        contentNameToIndex.put("TextFont", 12);
-        contentNameToIndex.put("TextSpeed", 13);
-        contentNameToIndex.put("PicDispTime", 14);
-        contentNameToIndex.put("VideoPlayTime", 15);
+        contentNameToIndex.put("ServerPort2", 3);
+        contentNameToIndex.put("ServerPort", 4);
+        contentNameToIndex.put("InfoPublishServer", 5);
+        contentNameToIndex.put("DevType", 6);
+        contentNameToIndex.put("CurrentStationID", 7);
+        contentNameToIndex.put("NextStationID", 8);
+        contentNameToIndex.put("ThemeStyle", 9);
+        contentNameToIndex.put("TextType", 10);
+        contentNameToIndex.put("TextColor", 11);
+        contentNameToIndex.put("TextSize", 12);
+        contentNameToIndex.put("TextFont", 13);
+        contentNameToIndex.put("TextSpeed", 14);
+        contentNameToIndex.put("PicDispTime", 15);
+        contentNameToIndex.put("VideoPlayTime", 16);
         Log.d(TAG, "static func run end");
     }
 
@@ -571,7 +574,7 @@ public class DeviceInfoUtils {
      *   从xml String中解析设备信息
      * */
     public static DeviceInfo parseDeviceInfoFromXmlString(String xmlContent) {
-
+        Log.d(TAG, "xmlContent:"+ xmlContent);
         DeviceInfo deviceInfo = new DeviceInfo();
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -590,12 +593,22 @@ public class DeviceInfoUtils {
                             break;
                         }
                         int index = contentNameToIndex.get(xmlPullParser.getName());
-                        Log.i(TAG, "contentNameToIndex:" + index);
+                        Log.i(TAG, "contentNameToIndex:" + index+ "/ name:"+ xmlPullParser.getName());
                         switch (index) {
                             case 1:
                                 String identify = xmlPullParser.nextText();
                                 Log.d(TAG, "Identify:" + identify);
                                 deviceInfo.setIdentify(identify.trim());
+                                break;
+                            case 17:
+                                String routeLine = xmlPullParser.nextText();
+                                Log.d(TAG, "routeLine:" + routeLine);
+                                deviceInfo.setRouteLine(routeLine.trim());
+                                break;
+                            case 18:
+                                String stationID = xmlPullParser.nextText();
+                                Log.d(TAG, "stationID:" + stationID);
+                                deviceInfo.setStationID(stationID.trim());
                                 break;
                             case 2:
                                 String serverIp = xmlPullParser.nextText();
@@ -603,68 +616,73 @@ public class DeviceInfoUtils {
                                 deviceInfo.setServerIp(serverIp.trim());
                                 break;
                             case 3:
+                                int serverPort2 = Integer.valueOf(xmlPullParser.nextText());
+                                Log.d(TAG, "ServerPort2:" + serverPort2);
+                                deviceInfo.setServerPort2(serverPort2);
+                                break;
+                            case 4:
                                 int serverPort = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "ServerPort:" + serverPort);
                                 deviceInfo.setServerPort(serverPort);
                                 break;
-                            case 4:
+                            case 5:
                                 String infoPublishServer = xmlPullParser.nextText();
                                 Log.d(TAG, "InfoPublishServer:" + infoPublishServer);
                                 deviceInfo.setInfoPublishServer(infoPublishServer.trim());
                                 break;
-                            case 5:
+                            case 6:
                                 //十六进制转换
                                 int devType = Integer.valueOf(xmlPullParser.nextText(), 16);
                                 Log.d(TAG, "DevType:" + devType);
                                 deviceInfo.setDevType(devType);
                                 break;
-                            case 6:
+                            case 7:
                                 int currentStationID = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "CurrentStationID:" + currentStationID);
                                 deviceInfo.setCurrentStationId(currentStationID);
                                 break;
-                            case 7:
+                            case 8:
                                 int nextStationID = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "NextStationID:" + nextStationID);
                                 deviceInfo.setNextStationId(nextStationID);
                                 break;
-                            case 8:
+                            case 9:
                                 int themeStyle = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "ThemeStyle:" + themeStyle);
                                 deviceInfo.setThemeStyle(themeStyle);
                                 break;
-                            case 9:
+                            case 10:
                                 int textType = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "TextType:" + textType);
                                 deviceInfo.setTextType(textType);
                                 break;
-                            case 10:
+                            case 11:
                                 String textColorHex = xmlPullParser.nextText();
                                 int textColor = Color.parseColor(textColorHex);
                                 Log.d(TAG, "TextColor:" + textColorHex);
                                 deviceInfo.setTextColor(textColor);
                                 break;
-                            case 11:
+                            case 12:
                                 int textSize = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "TextSize:" + textSize);
                                 deviceInfo.setTextSize(textSize);
                                 break;
-                            case 12:
+                            case 13:
                                 String textFont = xmlPullParser.nextText().trim();
                                 Log.d(TAG, "TextFont:" + textFont);
                                 deviceInfo.setTextFont(textFont);
                                 break;
-                            case 13:
+                            case 14:
                                 int textSpeed = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "TextSpeed:" + textSpeed);
                                 deviceInfo.setTextSpeed(textSpeed);
                                 break;
-                            case 14:
+                            case 15:
                                 int picDispTime = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "PicDispTime:" + picDispTime);
                                 deviceInfo.setPicDispTime(picDispTime);
                                 break;
-                            case 15:
+                            case 16:
                                 int videoPlayTime = Integer.valueOf(xmlPullParser.nextText());
                                 Log.d(TAG, "VideoPlayTime:" + videoPlayTime);
                                 deviceInfo.setVideoPlayTime(videoPlayTime);

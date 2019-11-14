@@ -12,8 +12,11 @@ public class DeviceInfo {
 
     public DeviceInfo() {
         identify = null;
+        routeLine = null;
+        stationID = null;
         serverIp = null;
         serverPort = -1;
+        serverPort2 = -1;
         infoPublishServer = null;
         devType = -1;
         currentStationId = -1;
@@ -31,9 +34,12 @@ public class DeviceInfo {
 
     // bit0
     private String identify;
+    private String routeLine;
+    private String stationID;
     // bit1
     private String serverIp;
     // bit2
+    private int serverPort2;
     private int serverPort;
     // bit3
     private String infoPublishServer;
@@ -64,6 +70,34 @@ public class DeviceInfo {
     // long 为64位，可表示64个字段的状态， 0表示未设置， 1表示已设置
     private long flag;
 
+    public synchronized void setRouteLine(String routeLine) {
+        if (null != routeLine && !("".equals(routeLine))) {
+            this.routeLine = routeLine;
+        }
+    }
+
+    public boolean isRouteLineSet() {
+        return true;
+    }
+
+    public String getRouteLine() {
+        return routeLine;
+    }
+
+    public synchronized void setStationID(String stationID) {
+        if (null != stationID && !("".equals(stationID))) {
+            this.stationID = stationID;
+        }
+    }
+
+    public boolean isStationIDSet() {
+        return true;
+    }
+
+    public String getStationID() {
+        return stationID;
+    }
+
     public synchronized void setIdentify(String identify) {
         if (null != identify && !("".equals(identify))) {
             this.identify = identify;
@@ -92,6 +126,20 @@ public class DeviceInfo {
 
     public String getServerIp() {
         return serverIp;
+    }
+
+    public synchronized void setServerPort2(int serverPort2) {
+        if (serverPort2 > 0) {
+            this.serverPort2 = serverPort2;
+        }
+    }
+
+    public boolean isServerPort2Set() {
+        return true;
+    }
+
+    public int getServerPort2() {
+        return serverPort2;
     }
 
     public synchronized void setServerPort(int serverPort) {
@@ -301,7 +349,10 @@ public class DeviceInfo {
     public String toString() {
         return "DeviceInfo{" +
                 "identify='" + identify + '\'' +
+                ", routeLine='" + routeLine + '\'' +
+                ", stationID='" + stationID + '\'' +
                 ", serverIp='" + serverIp + '\'' +
+                ", serverPort2=" + serverPort2 +
                 ", serverPort=" + serverPort +
                 ", infoPublishServer='" + infoPublishServer + '\'' +
                 ", devType=" + devType +

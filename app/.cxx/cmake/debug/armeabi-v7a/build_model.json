@@ -5,7 +5,6 @@
       "sdkFolder": "D:\\studioWork\\Sdk",
       "isNativeCompilerSettingsCacheEnabled": false,
       "isBuildOnlyTargetAbiEnabled": true,
-      "ideBuildTargetAbi": "armeabi-v7a,armeabi",
       "splitsAbiFilterSet": [],
       "intermediatesFolder": "D:\\studioWork\\workspace\\videopost_vlc\\app\\build\\intermediates",
       "gradleModulePathName": ":app",

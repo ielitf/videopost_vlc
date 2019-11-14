@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AppConfig>
     <Identify>0123456789ab00303201</Identify> <!-- 003线路ID， 03代表2站， 2代表下行， 01屏号 -->
-    <ServerIp>aids.zdhs.com.cn</ServerIp>
-    <ServerPort>8899</ServerPort>
-    <InfoPublishServer>tcp://aids.zdhs.com.cn:1883</InfoPublishServer>
+    <RouteLine>003</RouteLine> <!-- 公交线路ID -->
+    <StationID>3</StationID> <!-- 当前公交站点ID -->
+    <ServerIp>aids.zdhs.com.cn</ServerIp> <!-- 服务器的ip -->
+    <ServerPort2>8082</ServerPort2> <!-- 对应上面的ip的服务器的端口 -->
+    <ServerPort>8899</ServerPort> <!-- 不要改动 -->
+    <InfoPublishServer>tcp://aids.zdhs.com.cn:1883</InfoPublishServer> <!-- MQTT的服务器 -->
     <DevType>11</DevType> <!-- 11:videoPost 12:signPost 13:linePost 十六进制 -->
     <CurrentStationID>2</CurrentStationID>
     <NextStationID>2</NextStationID>

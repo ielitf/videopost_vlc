@@ -72,6 +72,7 @@ public class ZLeftFragment  extends Fragment {
     private HashMap<Integer, Integer> ds2ListIndex = null;
 
     private final static String UnknownInfo = "暂无车辆";
+    private final static String UnknownInfo_time = "（ 时间未知 ）";
     private int stationId;//当前站的ID
 //    //车辆信息TextView正常大小
 //    private final int NormalSize = 45;
@@ -79,12 +80,12 @@ public class ZLeftFragment  extends Fragment {
 //    private final int SmallSize = 35;
 
     //车辆信息TextView正常大小
-    private final int NormalSize = 120;
+    private final int NormalSize = 100;
     //车辆信息TextView显示内容较多时的大小
     private final int SmallSize = 90;
 
     //本次车信息View
-    private TextView ZLto_station;
+    private TextView ZLto_station,distance_time;
     //本次车信息内容
     private String ZLto_content;
     //本次车信息颜色
@@ -93,6 +94,8 @@ public class ZLeftFragment  extends Fragment {
     private int ZLto_size;
     //下次车信息View
     private TextView ZLnextto_station;
+    //到达本站的时间
+    private String Lto_distance_time;
     //下次车信息内容
     private String ZLnextto_content;
     //下次车信息颜色
@@ -109,6 +112,7 @@ public class ZLeftFragment  extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MsgSetBrtInfo:
+                    distance_time.setText(msg.getData().getString("time"));
                     ZLto_station.setText(msg.getData().getString("tt"));
                     ZLto_station.setTextColor(msg.getData().getInt("tc"));
                     ZLto_station.setTextSize(TypedValue.COMPLEX_UNIT_PX, msg.getData().getInt("ts"));
@@ -180,7 +184,7 @@ public class ZLeftFragment  extends Fragment {
         Log.e(TAG, "终点ZLeftFragment");
         ZLto_station=(TextView)view.findViewById(R.id.ZLto_station);
 //        ZLnextto_station=(TextView)view.findViewById(R.id.ZLnextto_station);
-
+        distance_time = view.findViewById(R.id.next_distance_time);
         //初始化BRT信息
         ZLto_station.setText(UnknownInfo);
         ZLto_station.setTextSize(TypedValue.COMPLEX_UNIT_PX, SmallSize);
@@ -247,7 +251,7 @@ public class ZLeftFragment  extends Fragment {
         }
         //$是特殊符号，必须用[$]来分割
         String[] data = brtInfo.split("[" + MsgService.MsgSeparator + "]");
-        if (data.length != 7 || !(data[1].equals(MsgService.routeId))) {
+        if (data.length != 8 || !(data[1].equals(MsgService.routeId))) {
             Log.e(TAG, "Invalid BrtInfo Data!");
             Log.e(TAG, "data len: " + data.length);
             for (String tmp : data) {
@@ -259,6 +263,8 @@ public class ZLeftFragment  extends Fragment {
         boolean needUpdate = false;
         synchronized (BusInfoLock) {
             if (data[0].equals(MsgService.MsgTypeArrLeft)) {
+                int time  = Integer.parseInt(data[7])/60;
+                Lto_distance_time = "（ " + time + "分钟 ）";
                 //到离站数据
                 String ProductID = data[2];
                 int dualSerial = Integer.valueOf(data[3]);
@@ -439,6 +445,7 @@ public class ZLeftFragment  extends Fragment {
         Log.i("BrtTest", "brtList.size():"+size+"/brtList:"+brtList.toString());
         if (size == 0) {
             //当前还没有BRT车辆信息暂无车辆字体为小
+            Lto_distance_time = UnknownInfo_time;
             ZLto_content = UnknownInfo;
             ZLto_color = Color.WHITE;
             ZLto_size = SmallSize;
@@ -526,6 +533,7 @@ public class ZLeftFragment  extends Fragment {
             bundle.putString("ntt", ZLnextto_content);
             bundle.putInt("ntc", ZLnextto_color);
             bundle.putInt("nts", ZLnextto_size);
+            bundle.putString("time", Lto_distance_time);
             msg.setData(bundle);
             handler.sendMessage(msg);
         }
