@@ -18,6 +18,8 @@ public class DeviceInfo {
         serverPort = -1;
         serverPort2 = -1;
         infoPublishServer = null;
+        userName = "";
+        passWord = "";
         devType = -1;
         currentStationId = -1;
         nextStationId = -1;
@@ -43,6 +45,8 @@ public class DeviceInfo {
     private int serverPort;
     // bit3
     private String infoPublishServer;
+    private String userName;
+    private String passWord;
     // bit4
     private int devType;
     // bit5
@@ -170,6 +174,40 @@ public class DeviceInfo {
 
     public String getInfoPublishServer() {
         return infoPublishServer;
+    }
+
+
+    /**
+    *  Mqtt的用户名
+     */
+    public synchronized void setUserName(String userName) {
+        if (null != userName && !("".equals(userName))) {
+            this.userName = userName;
+        }
+    }
+
+    public boolean isUserNameSet() {
+        return true;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+    /**
+    *  Mqtt的用户密码
+     */
+    public synchronized void setPassWord(String passWord) {
+        if (null != passWord && !("".equals(passWord))) {
+            this.passWord = passWord;
+        }
+    }
+
+    public boolean isPassWordSet() {
+        return true;
+    }
+
+    public String getPassWord() {
+        return passWord;
     }
 
     public synchronized void setDevType(int devType) {
@@ -355,6 +393,8 @@ public class DeviceInfo {
                 ", serverPort2=" + serverPort2 +
                 ", serverPort=" + serverPort +
                 ", infoPublishServer='" + infoPublishServer + '\'' +
+                ", userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
                 ", devType=" + devType +
                 ", currentStationId=" + currentStationId +
                 ", nextStationId=" + nextStationId +

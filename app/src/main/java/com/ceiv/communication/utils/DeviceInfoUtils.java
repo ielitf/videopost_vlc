@@ -60,6 +60,8 @@ public class DeviceInfoUtils {
         contentNameToIndex.put("ServerPort2", 3);
         contentNameToIndex.put("ServerPort", 4);
         contentNameToIndex.put("InfoPublishServer", 5);
+        contentNameToIndex.put("UserName", 19);
+        contentNameToIndex.put("PassWord", 20);
         contentNameToIndex.put("DevType", 6);
         contentNameToIndex.put("CurrentStationID", 7);
         contentNameToIndex.put("NextStationID", 8);
@@ -629,6 +631,16 @@ public class DeviceInfoUtils {
                                 String infoPublishServer = xmlPullParser.nextText();
                                 Log.d(TAG, "InfoPublishServer:" + infoPublishServer);
                                 deviceInfo.setInfoPublishServer(infoPublishServer.trim());
+                                break;
+                            case 19:
+                                String userName = xmlPullParser.nextText();
+                                Log.d(TAG, "userName:" + userName);
+                                deviceInfo.setUserName(userName.trim());
+                                break;
+                            case 20:
+                                String passWord = xmlPullParser.nextText();
+                                Log.d(TAG, "passWord:" + passWord);
+                                deviceInfo.setPassWord(passWord.trim());
                                 break;
                             case 6:
                                 //十六进制转换

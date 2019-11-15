@@ -432,6 +432,7 @@ public class ZLeftFragment  extends Fragment {
                     }
                 }
             }
+            Log.i(TAG, "是否更新界面："+ needUpdate);
             if (needUpdate) {
                 setBrtInfo(viceDisplay);
             }

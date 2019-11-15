@@ -7,6 +7,8 @@
     <ServerPort2>8082</ServerPort2> <!-- 对应上面的ip的服务器的端口 -->
     <ServerPort>8899</ServerPort> <!-- 不要改动 -->
     <InfoPublishServer>tcp://aids.zdhs.com.cn:1883</InfoPublishServer> <!-- MQTT的服务器 -->
+    <UserName>admin</UserName> <!-- MQTT的服务器的用户名 -->
+    <PassWord>pi@1415</PassWord> <!-- MQTT的服务器的用户密码 -->
     <DevType>11</DevType> <!-- 11:videoPost 12:signPost 13:linePost 十六进制 -->
     <CurrentStationID>2</CurrentStationID>
     <NextStationID>2</NextStationID>

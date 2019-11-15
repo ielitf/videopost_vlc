@@ -61,8 +61,10 @@ public  class MsgService extends Service {
     public static final String TopicArrLev = "TopicArrLev";
     public static final String TopicGPS = "TopicGPS";
     public static final String TopicBrt = "com/ceiv/busmsg/zzbrt";
-    private String userName = "admin"; // 连接的用户名
-    private String passWord = "pi@1415"; //连接的密码
+    private String userName = ""; // 连接的用户名  见初始化
+    private String passWord = ""; //连接的密码  见初始化
+//    private String userName = "admin"; // 连接的用户名
+//    private String passWord = "pi@1415"; //连接的密码
 //    private String userName = "zzx"; // 连接的用户名
 //    private String passWord = "zzx"; //连接的密码
 
@@ -138,8 +140,10 @@ public  class MsgService extends Service {
 //        Log.d(TAG, "serverIp: " + serverIp);
 //        BROKER_URL = "tcp://"+ serverIp + ":1883";
         BROKER_URL = deviceInfo.getInfoPublishServer();
+        userName = deviceInfo.getUserName();
+        passWord = deviceInfo.getPassWord();
 
-        Log.d(TAG, "BROKER_URL: " + BROKER_URL +"/Mqtt Client ID: " + clientId);
+        Log.d(TAG, "BROKER_URL: " + BROKER_URL +" /userName:"+ userName + " /passWord:" +passWord + " /Mqtt Client ID: " + clientId);
         init();           //初始化相关配置
         startConnect();        //连接mqtt服务器
         super.onCreate();
@@ -228,6 +232,7 @@ public  class MsgService extends Service {
                             Log.d(TAG,"MQTT ArrLeftData："+ArrLeftData);
                             if (!ArrLeftData.equals(ArrLeftDataOld)) {
                                 if (null != onMqttListener) {
+                                    Log.d(TAG,"onMqttListener.onRecvMsg(ArrLeftData)：");
                                     onMqttListener.onRecvMsg(ArrLeftData);
                                 }
                                 ArrLeftDataOld = ArrLeftData;

@@ -7,6 +7,8 @@
     <ServerPort2>%s</ServerPort2>
     <ServerPort>%s</ServerPort>
     <InfoPublishServer>%s</InfoPublishServer>
+    <UserName>%s</UserName>
+    <PassWord>%s</PassWord>
     <DevType>%x</DevType> <!-- 11:videoPost 12:signPost 13:linePost 十六进制 -->
     <CurrentStationID>%d</CurrentStationID>
     <NextStationID>%d</NextStationID>
