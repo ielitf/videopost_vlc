@@ -69,11 +69,11 @@ public class ZLeftFragment  extends Fragment {
     private HashMap<String, Long> leftBusMap = null;
 
     //双程号到stationList中站点的各站点index的映射
-    private HashMap<Integer, Integer> ds2ListIndex = null;
+    private HashMap<String, Integer> ds2ListIndex = null;
 
     private final static String UnknownInfo = "暂无车辆";
     private final static String UnknownInfo_time = "（ 时间未知 ）";
-    private int stationId;//当前站的ID
+    private String stationId;//当前设备所在站的ID
 //    //车辆信息TextView正常大小
 //    private final int NormalSize = 45;
 //    //车辆信息TextView显示内容较多时的大小
@@ -126,21 +126,6 @@ public class ZLeftFragment  extends Fragment {
         }
     };
 
-//    public void fragmentInit(ArrayList<StationInfoItem> stationList) {
-////        this.stationList = stationList;
-////        this.stationCount = stationList.size();
-////        //终点站
-////        this.curStaIndex = stationCount - 1;
-////        brtList = new ArrayList<>();
-////        ds2ListIndex = new HashMap<Integer, Integer>();
-////        //初始化映射表
-////        for (int i = 0; i < stationCount; i++) {
-////            ds2ListIndex.put(stationList.get(i).dualSerial, i);
-////        }
-////
-////        cleanBRTInfoThread.start();
-////    }
-
     public void fragmentInit(ArrayList<StationItem> stationList) {
         this.stationList = stationList;
         this.stationCount = stationList.size();
@@ -148,10 +133,10 @@ public class ZLeftFragment  extends Fragment {
         this.curStaIndex = stationCount - 1;
         brtList = new ArrayList<>();
         leftBusMap = new HashMap<String, Long>();
-        ds2ListIndex = new HashMap<Integer, Integer>();
+        ds2ListIndex = new HashMap<String, Integer>();
         //初始化映射表
         for (int i = 0; i < stationCount; i++) {
-            ds2ListIndex.put(stationList.get(i).getDualSerial(), i);
+            ds2ListIndex.put(stationList.get(i).getStationID(), i);
         }
 
         cleanBRTInfoThread.start();
@@ -166,13 +151,13 @@ public class ZLeftFragment  extends Fragment {
         this.stationCount = stationList.size();
         //终点站
         this.curStaIndex = stationCount - 1;
-        stationId = Integer.parseInt(stationList.get(curStaIndex).getId());
+        stationId = stationList.get(curStaIndex).getId();
         brtList = new ArrayList<>();
         leftBusMap = new HashMap<String, Long>();
-        ds2ListIndex = new HashMap<Integer, Integer>();
+        ds2ListIndex = new HashMap<String, Integer>();
         //初始化映射表
         for (int i = 0; i < stationCount; i++) {
-            ds2ListIndex.put(Integer.parseInt(stationList.get(i).getId()), i);
+            ds2ListIndex.put(stationList.get(i).getId(), i);
         }
 
         cleanBRTInfoThread.start();
@@ -221,7 +206,7 @@ public class ZLeftFragment  extends Fragment {
                         if (Math.abs(brtList.get(i).lastTime - System.currentTimeMillis()) > 10 * 60 * 1000) {
                             //长时间没有收到该车的任何数据，则认为该车已经离线
                             final BrtInfoUtils.BrtInfo tmpBrtInfo = brtList.remove(i);
-                            Log.d(TAG, "BusID: " + tmpBrtInfo.busID + " dualSerialID: " + tmpBrtInfo.dualSerial + " offline!");
+                            Log.d(TAG, "BusID: " + tmpBrtInfo.busID + " dualSerialID: " + tmpBrtInfo.stationId + " offline!");
                             if (mViceDisplay != null) {
                                 setBrtInfo(mViceDisplay);
                             }
@@ -263,11 +248,16 @@ public class ZLeftFragment  extends Fragment {
         boolean needUpdate = false;
         synchronized (BusInfoLock) {
             if (data[0].equals(MsgService.MsgTypeArrLeft)) {
-                int time  = Integer.parseInt(data[7])/60;
-                Lto_distance_time = "（ " + time + "分钟 ）";
+                int time = Integer.parseInt(data[7]);
+                if(time >= 60){
+                    Lto_distance_time = "（ " + time/60 + "分钟 ）";
+                }else{
+                    Lto_distance_time = "（ 不足1分钟 ）";
+                }
                 //到离站数据
                 String ProductID = data[2];
-                int dualSerial = Integer.valueOf(data[3]);
+                String dualSerial = data[3];
+                int stationIdIndex = ds2ListIndex.get(dualSerial);
                 int IsArrLeft = Integer.valueOf(data[4]);
                 //补发标志 0 正常  1 GPRS补发  2 场站DSRC补发  5 站台上报到离站
                 int isReissue = Integer.valueOf(data[5]);
@@ -305,16 +295,17 @@ public class ZLeftFragment  extends Fragment {
                             //不是新车，则更新该车的信息
                             newBus = false;
                             if (ds2ListIndex.containsKey(dualSerial)) {
-                                if (tmp.dualSerial != dualSerial || tmp.IsArrLeft != IsArrLeft) {
+                                if (tmp.stationIdIndex != stationIdIndex || tmp.IsArrLeft != IsArrLeft) {
                                     //状态改变了
                                     newPos = true;
                                     //先移除该车辆信息
                                     BrtInfo oldInfo = brtList.remove(i);
-                                    oldInfo.dualSerial = dualSerial;
+                                    oldInfo.stationId = dualSerial;
+                                    oldInfo.stationIdIndex = stationIdIndex;
                                     oldInfo.IsArrLeft = IsArrLeft;
                                     oldInfo.lastTime = System.currentTimeMillis();
 //                                if (dualSerial < curStation.dualSerial || (dualSerial == curStation.dualSerial && IsArrLeft == 1)) {
-                                    if (dualSerial < stationId || (dualSerial == stationId && IsArrLeft == 1)) {
+                                    if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex == ds2ListIndex.get(stationId) && IsArrLeft == 1)) {
                                         //如果还在往本站行驶的路上，则调整位置
                                         BrtInfoUtils.InsertBrtInfo(oldInfo, brtList);
                                     } else {
@@ -342,9 +333,9 @@ public class ZLeftFragment  extends Fragment {
                         //判断双程号是否在当前线路内
                         if (ds2ListIndex.containsKey(dualSerial)) {
 //                        if (dualSerial < curStation.dualSerial || (dualSerial == curStation.dualSerial && IsArrLeft == 1)) {
-                            if (dualSerial < stationId || (dualSerial == stationId && IsArrLeft == 1)) {
+                            if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex == ds2ListIndex.get(stationId) && IsArrLeft == 1)) {
                                 //如果在往本站行驶的路上
-                                BrtInfoUtils.InsertBrtInfo(new BrtInfo(ProductID, dualSerial, IsArrLeft, System.currentTimeMillis()), brtList);
+                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerial, stationIdIndex, IsArrLeft, System.currentTimeMillis()), brtList);
                                 needUpdate = true;
                             } else {
                                 //如果已经越过本站
@@ -360,7 +351,8 @@ public class ZLeftFragment  extends Fragment {
                 //车辆ID
                 String ProductID = data[2];
                 //双程号
-                int dualSerialID = Integer.valueOf(data[3]);
+                String dualSerialID = data[3];
+                int stationIdIndex = ds2ListIndex.get(dualSerialID);
                 //车次类型，这里如果不是4：上行、 5：下行 则表明该车辆已处于非运营/离开本线路的状态
                 //需要剔除该车辆信息
                 int sequenceType = Integer.valueOf(data[4]);
@@ -374,7 +366,7 @@ public class ZLeftFragment  extends Fragment {
                 boolean newPos = false;
                 //当前站点的信息
 //                StationInfoItem curStation = stationList.get(curStaIndex);
-                StationItem curStation = stationList.get(curStaIndex);
+//                StationItem curStation = stationList.get(curStaIndex);
 
                 if (MsgService.BrtUplineStat != sequenceType && MsgService.BrtDownlineStat != sequenceType) {
                     for (int i = 0; i < brtList.size(); i++) {
@@ -405,29 +397,15 @@ public class ZLeftFragment  extends Fragment {
                         if (ds2ListIndex.containsKey(dualSerialID)) {
                             int tmpDualSerialID;
                             int tmpIsArrLeft;
-
-//                            if (stationList.get(0).getDualSerial() == dualSerialID) {
-//                                //如果是当前行进方向上的第一个站的双程号，则表明车辆刚进入线路，还未驶出第一个站
-//                                tmpDualSerialID = dualSerialID;
-//                                tmpIsArrLeft = 1;
-//                            } else {
-//                                //取前一个站的双程号
-////                                tmpDualSerialID = stationList.get(ds2ListIndex.get(dualSerialID) - 1).dualSerial;
-//                                tmpDualSerialID = stationList.get(ds2ListIndex.get(dualSerialID) - 1).getDualSerial();
-//                                tmpIsArrLeft = 2;   //离站， 这里只是估计（大多数情况如此，即便不是这样，会有后面的到离站数据进行校正）
-//                            }
-                            tmpIsArrLeft = 2;   //离站， 这里只是估计（大多数情况如此，即便不是这样，会有后面的到离站数据进行校正）
-                            if (dualSerialID < curStation.getDualSerial() || (dualSerialID == curStation.getDualSerial() && tmpIsArrLeft == 1)) {
+                             tmpIsArrLeft = 2;   //离站， 这里只是估计（大多数情况如此，即便不是这样，会有后面的到离站数据进行校正）
+                            if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex < ds2ListIndex.get(stationId) && tmpIsArrLeft == 1)) {
                                 //如果在往本站行驶的路上
-                                BrtInfoUtils.InsertBrtInfo(new BrtInfo(ProductID, dualSerialID, tmpIsArrLeft, System.currentTimeMillis()), brtList);
+                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerialID, stationIdIndex, tmpIsArrLeft, System.currentTimeMillis()), brtList);
                                 needUpdate = true;
                             } else {
                                 //如果已经越过本站
                                 needUpdate = false;
                             }
-//                            BrtInfoUtils.InsertBrtInfo(new BrtInfo(ProductID, tmpDualSerialID, tmpIsArrLeft, System.currentTimeMillis()), brtList);
-//                            //brtList.add(new BrtInfo(ProductID, tmpDualSerialID, tmpIsArrLeft, System.currentTimeMillis()));
-//                            needUpdate = true;
                         }
                     }
                 }
@@ -455,7 +433,7 @@ public class ZLeftFragment  extends Fragment {
             ZLnextto_size = SmallSize;
         } else if (size == 1) {
             //当前只有一辆BRT车辆信息
-            int distance = curStaIndex - ds2ListIndex.get(brtList.get(0).dualSerial);
+            int distance = curStaIndex - ds2ListIndex.get(brtList.get(0).stationId);
             Log.i("BrtTest", "distance:"+distance);
             if (distance > 1) {
                 ZLto_content = distance + "站";
@@ -481,7 +459,7 @@ public class ZLeftFragment  extends Fragment {
             ZLnextto_size = NormalSize;
         } else {
             //当前有至少两辆BRT车辆信息
-            int distance = curStaIndex - ds2ListIndex.get(brtList.get(0).dualSerial);
+            int distance = curStaIndex - ds2ListIndex.get(brtList.get(0).stationId);
             if (distance > 1) {
                 ZLto_content = distance + "站";
                 ZLto_color = Color.WHITE;
@@ -501,7 +479,7 @@ public class ZLeftFragment  extends Fragment {
                 ZLto_color = Color.GREEN;
                 ZLto_size = NormalSize;
             }
-            distance = curStaIndex - ds2ListIndex.get(brtList.get(1).dualSerial);
+            distance = curStaIndex - ds2ListIndex.get(brtList.get(1).stationId);
             if (distance > 1) {
                 ZLnextto_content = distance + "站";
                 ZLnextto_color = Color.WHITE;
@@ -544,110 +522,4 @@ public class ZLeftFragment  extends Fragment {
                     ZLnextto_content, ZLnextto_color, ZLnextto_size*100/95);
         }
     }
-
-    /*
-     *  下面的代码是同时显示本次车和下次车的信息，现在由于海信那边要求只显示本次车的信息
-     *  且将“即将到站”状态去除
-     *
-     */
-//    //取brtList的前两个信息显示
-//    private void setBrtInfo(ViceDisplay viceDisplay){
-//        int size = brtList.size();
-//        if (size == 0) {
-//            //当前还没有BRT车辆信息
-//            ZLto_content = UnknownInfo;
-//            ZLto_color = Color.WHITE;
-//            ZLto_size = NormalSize;
-//            ZLnextto_content = UnknownInfo;
-//            ZLnextto_color = Color.WHITE;
-//            ZLnextto_size = NormalSize;
-//        } else if (size == 1) {
-//            //当前只有一辆BRT车辆信息
-//            int distance = curStaIndex - ds2ListIndex.get(brtList.get(0).dualSerial);
-//            if (distance > 1) {
-//                ZLto_content = distance + "站";
-//                ZLto_color = Color.WHITE;
-//                ZLto_size = NormalSize;
-//            } else if (distance == 1) {
-//                if (brtList.get(0).IsArrLeft == 1) {
-//                    ZLto_content = distance + "站";
-//                    ZLto_color = Color.WHITE;
-//                    ZLto_size = NormalSize;
-//                } else {
-//                    ZLto_content = "即将到站";
-//                    ZLto_color = Color.GREEN;
-//                    ZLto_size = SmallSize;
-//                }
-//            } else if (distance == 0 && brtList.get(0).IsArrLeft == 1) {
-//                ZLto_content = "到站";
-//                ZLto_color = Color.GREEN;
-//                ZLto_size = NormalSize;
-//            }
-//            ZLnextto_content = UnknownInfo;
-//            ZLnextto_color = Color.WHITE;
-//            ZLnextto_size = NormalSize;
-//        } else {
-//            //当前有至少两辆BRT车辆信息
-//            int distance = curStaIndex - ds2ListIndex.get(brtList.get(0).dualSerial);
-//            if (distance > 1) {
-//                ZLto_content = distance + "站";
-//                ZLto_color = Color.WHITE;
-//                ZLto_size = NormalSize;
-//            } else if (distance == 1) {
-//                if (brtList.get(0).IsArrLeft == 1) {
-//                    ZLto_content = distance + "站";
-//                    ZLto_color = Color.WHITE;
-//                    ZLto_size = NormalSize;
-//                } else {
-//                    ZLto_content = "即将到站";
-//                    ZLto_color = Color.GREEN;
-//                    ZLto_size = SmallSize;
-//                }
-//            } else if (distance == 0 && brtList.get(0).IsArrLeft == 1) {
-//                ZLto_content = "到站";
-//                ZLto_color = Color.GREEN;
-//                ZLto_size = NormalSize;
-//            }
-//            distance = curStaIndex - ds2ListIndex.get(brtList.get(1).dualSerial);
-//            if (distance > 1) {
-//                ZLnextto_content = distance + "站";
-//                ZLnextto_color = Color.WHITE;
-//                ZLnextto_size = NormalSize;
-//            } else if (distance == 1) {
-//                if (brtList.get(1).IsArrLeft == 1) {
-//                    ZLnextto_content = distance + "站";
-//                    ZLnextto_color = Color.WHITE;
-//                    ZLnextto_size = NormalSize;
-//                } else {
-//                    ZLnextto_content = "即将到站";
-//                    ZLnextto_color = Color.GREEN;
-//                    ZLnextto_size = SmallSize;
-//                }
-//            } else if (distance == 0 && brtList.get(1).IsArrLeft == 1) {
-//                ZLnextto_content = "到站";
-//                ZLnextto_color = Color.GREEN;
-//                ZLnextto_size = NormalSize;
-//            }
-//        }
-//        //更新主屏信息
-//        if(ZLto_station != null && ZLnextto_station != null){
-//            Message msg = Message.obtain();
-//            msg.what = MsgSetBrtInfo;
-//            Bundle bundle = new Bundle();
-//            bundle.putString("tt", ZLto_content);
-//            bundle.putInt("tc", ZLto_color);
-//            bundle.putInt("ts", ZLto_size);
-//            bundle.putString("ntt", ZLnextto_content);
-//            bundle.putInt("ntc", ZLnextto_color);
-//            bundle.putInt("nts", ZLnextto_size);
-//            msg.setData(bundle);
-//            handler.sendMessage(msg);
-//        }
-//        //更新副屏信息， 主屏左边对应副屏右边
-//        if (viceDisplay != null) {
-//            viceDisplay.updateRightBrtInfo(ZLto_content, ZLto_color, ZLto_size,
-//                    ZLnextto_content, ZLnextto_color, ZLnextto_size);
-//        }
-//    }
-
 }

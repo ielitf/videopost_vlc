@@ -449,6 +449,10 @@ public class BrtInfoUtils {
         public String busID;
         //当前所处位置的双程号
         public int dualSerial;
+        //当前所处的站点id
+        public String stationId;
+        //当前所处的站点id所在的索引，从0开始
+        public int stationIdIndex;
         //到离站信息
         public int IsArrLeft;
         //最后一次更新的时间
@@ -460,18 +464,80 @@ public class BrtInfoUtils {
             this.IsArrLeft = IsArrLeft;
             this.lastTime = lastTime;
         }
+        public BrtInfo(String busID, String stationId,int stationIdIndex, int IsArrLeft, long lastTime) {
+            this.busID = busID;
+            this.stationId = stationId;
+            this.stationIdIndex = stationIdIndex;
+            this.IsArrLeft = IsArrLeft;
+            this.lastTime = lastTime;
+        }
 
         @Override
         public String toString() {
             return "BrtInfo{" +
                     "busID='" + busID + '\'' +
                     ", dualSerial=" + dualSerial +
+                    ", stationId='" + stationId + '\'' +
+                    ", stationIdIndex=" + stationIdIndex +
                     ", IsArrLeft=" + IsArrLeft +
                     ", lastTime=" + lastTime +
                     '}';
         }
     }
 
+
+    //将新的brt信息按照由近及远的顺序添加到brtList中
+    public static void InsertBrtInfo2(BrtInfo brtInfo, ArrayList<BrtInfo> brtList) {
+        int size = brtList.size();
+        if (0 == size) {
+            brtList.add(brtInfo);
+        } else {
+            if (brtList.get(0).stationIdIndex < brtInfo.stationIdIndex) {
+                //比第一个双程号还要大的话，就放在第一个位置
+                brtList.add(0, brtInfo);
+            } else if (brtList.get(size - 1).stationIdIndex > brtInfo.stationIdIndex) {
+                //比最后一个双程号还要小的话，放在最后面
+                brtList.add(size, brtInfo);
+            } else {
+                BrtInfo tmpInfo = null;
+                for (int i = 0; i < size; i++) {
+                    tmpInfo = brtList.get(i);
+                    if (tmpInfo.stationIdIndex < brtInfo.stationIdIndex) {
+                        //双程号大的（离显示屏所在的站点更近）的应该放在前面
+                        brtList.add(i, brtInfo);
+                        break;
+                    } else if (tmpInfo.stationIdIndex == brtInfo.stationIdIndex) {
+                        //双程号一致时需要检查到离站信息，“离站”的应放在“到站”的前面
+                        if (tmpInfo.IsArrLeft == 2) {
+                            if (brtInfo.IsArrLeft == 2) {
+                                brtList.add(i, brtInfo);
+                                break;
+                            } else {
+                                if (i == size - 1) {
+                                    //如果已经是最后一个，则直接添加在后面
+                                    brtList.add(size, brtInfo);
+                                    break;
+                                } else {
+                                    continue;
+                                }
+                            }
+                        } else {
+                            brtList.add(i, brtInfo);
+                            break;
+                        }
+                    } else {
+                        //双程号较小时继续往后面寻找
+                        if (i == size - 1) {
+                            //如果已经是最后一个，则直接添加在后面
+                            brtList.add(size, brtInfo);
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     //将新的brt信息按照由近及远的顺序添加到brtList中
     public static void InsertBrtInfo(BrtInfo brtInfo, ArrayList<BrtInfo> brtList) {
