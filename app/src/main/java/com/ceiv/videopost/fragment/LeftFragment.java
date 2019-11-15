@@ -362,14 +362,14 @@ public class LeftFragment extends Fragment {
         //是否需要更新界面车辆信息
         boolean needUpdate = false;
         synchronized (BusInfoLock) {
+            int arrivalTime = Integer.parseInt(data[7]);
+            if(arrivalTime >= 60){
+                Lto_distance_time = "（ " + arrivalTime/60 + "分钟 ）";
+            }else{
+                Lto_distance_time = "（ 不足1分钟 ）";
+            }
             if (data[0].equals(MsgService.MsgTypeArrLeft)) {
                 //到离站数据
-                int time = Integer.parseInt(data[7]);
-                if(time >= 60){
-                    Lto_distance_time = "（ " + time/60 + "分钟 ）";
-                }else{
-                    Lto_distance_time = "（ 不足1分钟 ）";
-                }
                 String ProductID = data[2];//车的ID
                 String dualSerial = data[3];//站点ID
                 int stationIdIndex = ds2ListIndex.get(dualSerial);
@@ -408,8 +408,8 @@ public class LeftFragment extends Fragment {
                             newBus = false;
                             if (ds2ListIndex.containsKey(dualSerial)) {
                                 //如果双程号在当前线路内
-                                if (tmp.stationIdIndex != stationIdIndex || tmp.IsArrLeft != IsArrLeft) {
-                                    //状态改变了
+                                if (tmp.stationIdIndex != stationIdIndex || tmp.IsArrLeft != IsArrLeft || tmp.arrivalTime != arrivalTime) {
+                                    //状态改变了:该车辆所在站点改变、到离站改变、到达时间改变
                                     newPos = true;
                                     //先移除该车辆信息
                                     BrtInfo oldInfo = brtList.remove(i);
@@ -419,6 +419,7 @@ public class LeftFragment extends Fragment {
                                     oldInfo.stationIdIndex = stationIdIndex;
                                     oldInfo.IsArrLeft = IsArrLeft;
                                     oldInfo.lastTime = System.currentTimeMillis();
+                                    oldInfo.arrivalTime = arrivalTime;
 //                                if (dualSerial < curStation.dualSerial || (dualSerial == curStation.dualSerial && IsArrLeft == 1)) {
                                     if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex == ds2ListIndex.get(stationId) && IsArrLeft == 1)) {
                                         //如果还在往本站行驶的路上，则调整位置
@@ -456,7 +457,7 @@ public class LeftFragment extends Fragment {
                             if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex == ds2ListIndex.get(stationId) && IsArrLeft == 1)) {
                                 Log.d("BrtTest", "车辆：" + ProductID + " 新加入本线路，状态：双程号：" + dualSerial + " 到离站：" + IsArrLeft);
                                 //如果在往本站行驶的路上
-                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerial, stationIdIndex, IsArrLeft, System.currentTimeMillis()), brtList);
+                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerial, stationIdIndex, IsArrLeft, System.currentTimeMillis(),arrivalTime), brtList);
                                 needUpdate = true;
                             } else {
                                 Log.d("BrtTest", "车辆：" + ProductID + " 新加入本线路，但已越过本站");
@@ -527,7 +528,7 @@ public class LeftFragment extends Fragment {
                                 //如果在往本站行驶的路上
                                 Log.d("BrtTest", "车辆：" + ProductID + " 新加入本线路，状态：双程号：" +
                                         dualSerialID + " 到离站：" + tmpIsArrLeft + " GPS");
-                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerialID, stationIdIndex, tmpIsArrLeft, System.currentTimeMillis()), brtList);
+                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerialID, stationIdIndex, tmpIsArrLeft, System.currentTimeMillis(),arrivalTime), brtList);
                                 needUpdate = true;
                             } else {
                                 //如果已经越过本站

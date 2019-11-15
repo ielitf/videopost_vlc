@@ -247,13 +247,13 @@ public class ZLeftFragment  extends Fragment {
         //是否需要更新界面车辆信息
         boolean needUpdate = false;
         synchronized (BusInfoLock) {
+            int arrivalTime = Integer.parseInt(data[7]);
+            if(arrivalTime >= 60){
+                Lto_distance_time = "（ " + arrivalTime/60 + "分钟 ）";
+            }else{
+                Lto_distance_time = "（ 不足1分钟 ）";
+            }
             if (data[0].equals(MsgService.MsgTypeArrLeft)) {
-                int time = Integer.parseInt(data[7]);
-                if(time >= 60){
-                    Lto_distance_time = "（ " + time/60 + "分钟 ）";
-                }else{
-                    Lto_distance_time = "（ 不足1分钟 ）";
-                }
                 //到离站数据
                 String ProductID = data[2];
                 String dualSerial = data[3];
@@ -295,8 +295,8 @@ public class ZLeftFragment  extends Fragment {
                             //不是新车，则更新该车的信息
                             newBus = false;
                             if (ds2ListIndex.containsKey(dualSerial)) {
-                                if (tmp.stationIdIndex != stationIdIndex || tmp.IsArrLeft != IsArrLeft) {
-                                    //状态改变了
+                                if (tmp.stationIdIndex != stationIdIndex || tmp.IsArrLeft != IsArrLeft || tmp.arrivalTime != arrivalTime) {
+                                    //状态改变了:该车辆所在站点改变、到离站改变、到达时间改变
                                     newPos = true;
                                     //先移除该车辆信息
                                     BrtInfo oldInfo = brtList.remove(i);
@@ -304,10 +304,11 @@ public class ZLeftFragment  extends Fragment {
                                     oldInfo.stationIdIndex = stationIdIndex;
                                     oldInfo.IsArrLeft = IsArrLeft;
                                     oldInfo.lastTime = System.currentTimeMillis();
+                                    oldInfo.arrivalTime = arrivalTime;
 //                                if (dualSerial < curStation.dualSerial || (dualSerial == curStation.dualSerial && IsArrLeft == 1)) {
                                     if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex == ds2ListIndex.get(stationId) && IsArrLeft == 1)) {
                                         //如果还在往本站行驶的路上，则调整位置
-                                        BrtInfoUtils.InsertBrtInfo(oldInfo, brtList);
+                                        BrtInfoUtils.InsertBrtInfo2(oldInfo, brtList);
                                     } else {
                                         //如果还在本线路但是已经驶离本站，则添加到离站车辆列表中
                                         leftBusMap.put(ProductID, System.currentTimeMillis());
@@ -335,7 +336,7 @@ public class ZLeftFragment  extends Fragment {
 //                        if (dualSerial < curStation.dualSerial || (dualSerial == curStation.dualSerial && IsArrLeft == 1)) {
                             if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex == ds2ListIndex.get(stationId) && IsArrLeft == 1)) {
                                 //如果在往本站行驶的路上
-                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerial, stationIdIndex, IsArrLeft, System.currentTimeMillis()), brtList);
+                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerial, stationIdIndex, IsArrLeft, System.currentTimeMillis(),arrivalTime), brtList);
                                 needUpdate = true;
                             } else {
                                 //如果已经越过本站
@@ -400,7 +401,7 @@ public class ZLeftFragment  extends Fragment {
                              tmpIsArrLeft = 2;   //离站， 这里只是估计（大多数情况如此，即便不是这样，会有后面的到离站数据进行校正）
                             if (stationIdIndex < ds2ListIndex.get(stationId) || (stationIdIndex < ds2ListIndex.get(stationId) && tmpIsArrLeft == 1)) {
                                 //如果在往本站行驶的路上
-                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerialID, stationIdIndex, tmpIsArrLeft, System.currentTimeMillis()), brtList);
+                                BrtInfoUtils.InsertBrtInfo2(new BrtInfo(ProductID, dualSerialID, stationIdIndex, tmpIsArrLeft, System.currentTimeMillis(),arrivalTime), brtList);
                                 needUpdate = true;
                             } else {
                                 //如果已经越过本站

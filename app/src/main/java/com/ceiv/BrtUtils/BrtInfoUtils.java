@@ -457,19 +457,28 @@ public class BrtInfoUtils {
         public int IsArrLeft;
         //最后一次更新的时间
         public long lastTime;
-
+        //车辆到达设备所在站点的时间
+        public int arrivalTime;
+        /**
+         * -------右边显示专用-----------
+         * 因为右边没有改，所以该方法暂时保留
+         */
         public BrtInfo(String busID, int dualSerial, int IsArrLeft, long lastTime) {
             this.busID = busID;
             this.dualSerial = dualSerial;
             this.IsArrLeft = IsArrLeft;
             this.lastTime = lastTime;
         }
-        public BrtInfo(String busID, String stationId,int stationIdIndex, int IsArrLeft, long lastTime) {
+        /**
+         * -------左边显示专用-----------
+         */
+        public BrtInfo(String busID, String stationId,int stationIdIndex, int IsArrLeft, long lastTime,int arrivalTime) {
             this.busID = busID;
             this.stationId = stationId;
             this.stationIdIndex = stationIdIndex;
             this.IsArrLeft = IsArrLeft;
             this.lastTime = lastTime;
+            this.arrivalTime = arrivalTime;
         }
 
         @Override
@@ -481,11 +490,14 @@ public class BrtInfoUtils {
                     ", stationIdIndex=" + stationIdIndex +
                     ", IsArrLeft=" + IsArrLeft +
                     ", lastTime=" + lastTime +
+                    ", arrivalTime=" + arrivalTime +
                     '}';
         }
     }
 
-
+    /**
+     * -------左边显示专用-----------
+     */
     //将新的brt信息按照由近及远的顺序添加到brtList中
     public static void InsertBrtInfo2(BrtInfo brtInfo, ArrayList<BrtInfo> brtList) {
         int size = brtList.size();
@@ -538,7 +550,10 @@ public class BrtInfoUtils {
             }
         }
     }
-
+    /**
+     * -------右边显示专用-----------
+     * 因为右边没有改，所以该方法暂时保留
+     */
     //将新的brt信息按照由近及远的顺序添加到brtList中
     public static void InsertBrtInfo(BrtInfo brtInfo, ArrayList<BrtInfo> brtList) {
         int size = brtList.size();
