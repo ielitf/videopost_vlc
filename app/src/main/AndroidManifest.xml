@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
     <application
         android:name="com.ceiv.AutoRestartApplication"
@@ -28,6 +30,7 @@
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <!-- <category android:name="android.intent.category.HOME" /> -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -38,9 +41,8 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.ceiv.START_APK" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.ceiv.SCREEN_SHOT_FINISH" />
-                <!-- <action android:name="android.intent.action.BOOT_COMPLETED"/> -->
             </intent-filter>
         </receiver>
 

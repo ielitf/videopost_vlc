@@ -14,7 +14,7 @@
     <NextStationID>2</NextStationID>
     <ThemeStyle>1</ThemeStyle> <!-- 1默认， 2镜像， 3第二主题， 4第二主题镜像 -->
     <TextType>0</TextType> <!-- default: 0 -->
-    <TextColor>#FFFFFFFF</TextColor> <!-- ARGB #FFFFFFFF 为完全不透明的白色 -->
+    <TextColor>#FFFFFF00</TextColor> <!-- ARGB #FFFFFFFF 为完全不透明的白色 -->
     <TextSize>1</TextSize> <!-- 0: small  1: middle  2: large -->
     <TextFont>heiti</TextFont> <!-- heiti: 黑体 songti: 宋体 kaiti: 楷体 lishu: 隶书 -->
     <TextSpeed>1</TextSpeed> <!-- 0:slow 1:normal 2:fast -->

@@ -423,8 +423,9 @@ public class DeviceInfoUtils {
         FileOutputStream fileOutputStream = null;
 //        FileWriter fileWriter = null;
         //构建配置文本
-        String content = String.format(formatString, deviceInfo.getIdentify(), deviceInfo.getServerIp(), deviceInfo.getServerPort(),
-                deviceInfo.getInfoPublishServer(), deviceInfo.getDevType(), deviceInfo.getCurrentStationId(), deviceInfo.getNextStationId(),
+        String content = String.format(formatString, deviceInfo.getIdentify(),deviceInfo.getRouteLine(),deviceInfo.getStationID(),
+                deviceInfo.getServerIp(), deviceInfo.getServerPort2(),deviceInfo.getServerPort(),
+                deviceInfo.getInfoPublishServer(),deviceInfo.getUserName(), deviceInfo.getPassWord(),deviceInfo.getDevType(), deviceInfo.getCurrentStationId(), deviceInfo.getNextStationId(),
                 deviceInfo.getThemeStyle(), deviceInfo.getTextType(), deviceInfo.getTextColor(), deviceInfo.getTextSize(), deviceInfo.getTextFont(),
                 deviceInfo.getTextSpeed(), deviceInfo.getPicDispTime(), deviceInfo.getVideoPlayTime());
         synchronized (rwLock) {

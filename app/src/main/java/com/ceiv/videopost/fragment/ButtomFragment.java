@@ -56,6 +56,14 @@ public class ButtomFragment  extends Fragment {
         textFont = "heiti";
         scrollSpeed = 90;
 
+
+        getTextSeeting();
+        displayTextInit();
+        show();
+        return view;
+    }
+
+    private void getTextSeeting() {
         if (DeviceInfoUtils.DeviceInfoUtilsInit(getActivity())) {
             DeviceInfo deviceInfo = DeviceInfoUtils.getDeviceInfoFromFile();
             if (deviceInfo != null) {
@@ -64,9 +72,6 @@ public class ButtomFragment  extends Fragment {
                         deviceInfo.getTextFont(), deviceInfo.getTextSpeed());
             }
         }
-        displayTextInit();
-        show();
-        return view;
     }
 
     public void displayParametersInit(int size, int color, String font, int speed) {
@@ -131,6 +136,7 @@ public class ButtomFragment  extends Fragment {
     }
 
     public void updateDisplayContent() {
+        getTextSeeting();
         displayTextInit();
         show();
     }

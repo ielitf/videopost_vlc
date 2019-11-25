@@ -446,11 +446,21 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
                         case ProtocolMessageProcess.MsgArg1ReloadMedia:
                             //子线程已完成媒体操作，现在需要扫描新的媒体文件和播放参数，重新进行显示
                             Log.d(TAG, "Reload media");
-                            if (null != videoController) {
-                                videoController.refreshVideoList();
+
+                            if (0 != (msg.arg2 & ProtocolMessageProcess.MsgArg2VideoBit)) {
+                                Log.d(TAG, "gona to refresh video list!");
+                                if (null != videoController) {
+                                    videoController.refreshVideoList();
+                                }
                             }
-                            if (null != buttomFragment) {
-                                buttomFragment.updateDisplayContent();
+
+
+                            if (0 != (msg.arg2 & ProtocolMessageProcess.MsgArg2TextBit)) {
+                                Log.d(TAG, "gona to refresh text content!");
+                                Log.d(TAG, "===下载完字体，更新页面");
+                                if (null != buttomFragment) {
+                                    buttomFragment.updateDisplayContent();
+                                }
                             }
 //                            if (mViceDisplay != null) {
 //                                mViceDisplay.updateTips();
@@ -575,7 +585,7 @@ public class MainActivity extends FragmentActivity implements SystemInfoUtils.Ap
 //                                buttomFragment.updateDisplayParameters();
                             }
                             if (null != mViceDisplay) {
-                                mViceDisplay.updateTips();
+//                                mViceDisplay.updateTips();
                             }
                             break;
                     }

@@ -16,20 +16,11 @@ public class MainReceiver extends BroadcastReceiver {
 
     private final static String TAG = "MainReceiver";
 
-    //final static String action_boot ="android.intent.action.BOOT_COMPLETED";
-    public final static String START_APK = "com.ceiv.START_APK";
+    public final static String START_APK = "android.intent.action.BOOT_COMPLETED";
     public final static String SCREEN_SHOT_FINISH = "com.ceiv.SCREEN_SHOT_FINISH";
 
     @Override
     public void onReceive (Context context, Intent intent) {
-        /*
-        if (intent.getAction().equals(action_boot)){
-            Intent intent2 = new Intent(context, MainActivity.class);
-            // 下面这句话必须加上才能实现开机自动运行app的界面
-            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent2);
-        }
-        */
         Log.d(TAG, "receive broadcast");
         if (intent.getAction().equals(START_APK)) {
             Log.d(TAG, "receive action:" + START_APK);
